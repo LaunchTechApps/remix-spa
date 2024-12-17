@@ -12,7 +12,7 @@ export default defineConfig({
   plugins: [
     remix({
       ssr: false,
-      basename: "remix-spa/client",
+      basename: "/remix-spa/client/",
       future: {
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,
@@ -23,4 +23,9 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+  },
+  base: "/remix-spa/client/",
 });
