@@ -7,7 +7,7 @@
    },
    "files": {
       "ignoreUnknown": true,
-      "ignore": []
+      "ignore": ["*.js", "cdk.out/*", "api/*"]
    },
    "formatter": {
       "enabled": true,
@@ -32,6 +32,10 @@
             "noUnusedVariables": {
                "level": "warn",
                "fix": "none"
+            },
+            "useExhaustiveDependencies": {
+               "level": "warn",
+               "options": {}
             }
          },
          "style": {
