@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mail } from "lucide-react";
 import { Link, useLoaderData } from "@remix-run/react";
 import AsyncImg from "@/components/async-img";
 
@@ -30,26 +29,25 @@ export default function SignInPage() {
                      <div className="relative">
                         <Input
                            type="email"
-                           placeholder="Email"
-                           className="pl-10 py-6 bg-gray-50/50"
-                        />
-                        <Mail
-                           className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                           size={20}
+                           placeholder="your@email.com"
+                           className="pl-5 py-6 bg-gray-50/50"
                         />
                      </div>
                   </div>
+                  <div className="h-5" />
                   <Button className="w-full py-6 bg-purple-600 hover:bg-purple-700">
                      Send Login Code
                   </Button>
                </div>
+
+               <hr />
                <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
                   <Link
-                     to="/register"
+                     to="/waitlist"
                      className="text-purple-600 hover:text-purple-700 font-semibold"
                   >
-                     Register
+                     Join the waitlist
                   </Link>
                </div>
             </div>
