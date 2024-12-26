@@ -7,7 +7,7 @@
    },
    "files": {
       "ignoreUnknown": true,
-      "ignore": ["*.js", "cdk.out/*", "api/*"]
+      "ignore": ["*.js", "cdk.out/*", "api/client.ts"]
    },
    "formatter": {
       "enabled": true,

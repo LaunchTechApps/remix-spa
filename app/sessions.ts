@@ -32,6 +32,4 @@ const { getSession, commitSession, destroySession } = createCookieSessionStorage
    },
 });
 
-const session = { get: getSession, commit: commitSession, destroy: destroySession };
-
-export { session };
+export const session = { get: getSession, commit: commitSession, destroy: destroySession };
