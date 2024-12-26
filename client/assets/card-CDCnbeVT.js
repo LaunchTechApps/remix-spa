@@ -1,0 +1,6 @@
+import{c as t}from"./createLucideIcon-DQDqlXhP.js";import{r as s,n as d}from"./components-ugrZxUQv.js";import{c as o}from"./util-BN2WqpqG.js";/**
+ * @license lucide-react v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const N=t("ChevronLeft",[["path",{d:"m15 18-6-6 6-6",key:"1wnfg3"}]]),c=s.forwardRef(({className:a,...e},r)=>d.jsx("div",{ref:r,className:o("rounded-xl border bg-card text-card-foreground shadow",a),...e}));c.displayName="Card";const n=s.forwardRef(({className:a,...e},r)=>d.jsx("div",{ref:r,className:o("flex flex-col space-y-1.5 p-6",a),...e}));n.displayName="CardHeader";const i=s.forwardRef(({className:a,...e},r)=>d.jsx("div",{ref:r,className:o("font-semibold leading-none tracking-tight",a),...e}));i.displayName="CardTitle";const f=s.forwardRef(({className:a,...e},r)=>d.jsx("div",{ref:r,className:o("text-sm text-muted-foreground",a),...e}));f.displayName="CardDescription";const m=s.forwardRef(({className:a,...e},r)=>d.jsx("div",{ref:r,className:o("p-6 pt-0",a),...e}));m.displayName="CardContent";const l=s.forwardRef(({className:a,...e},r)=>d.jsx("div",{ref:r,className:o("flex items-center p-6 pt-0",a),...e}));l.displayName="CardFooter";export{N as C,c as a,n as b,i as c,m as d};
