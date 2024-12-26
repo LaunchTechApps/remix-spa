@@ -1,8 +1,46 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useLoaderData } from "@remix-run/react";
+import {
+   type ClientActionFunctionArgs,
+   Form,
+   Link,
+   redirect,
+   useActionData,
+   useLoaderData,
+   useNavigation,
+} from "@remix-run/react";
 import AsyncImg from "@/components/async-img";
 import type { TopNavSettings } from "@/routes/_layout/route";
+import { cn, sleep } from "@/lib/util";
+import { z } from "zod";
+import { useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
+import { FormError } from "@/components/form-error";
+import { api } from "@/api/api";
+
+const schema = z.object({
+   email: z.string().email(),
+});
+
+export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+   const formData = await request.formData();
+
+   const submission = parseWithZod(formData, { schema });
+
+   const email = formData.get("email")?.valueOf().toString()
+   if (!email) return submission.reply({ formErrors: ["Email was not submitted"] });
+
+   const response = await api.requestOtp({ email })
+   if (!response.ok) {
+      console.error("something went wrong")
+   }
+
+   if (submission.status !== "success") {
+      return submission.reply();
+   }
+
+   return redirect("/");
+};
 
 const getImg = async () => {
    await new Promise((resolve) => setTimeout(resolve, 0));
@@ -21,6 +59,19 @@ export const handle: TopNavSettings = {
 
 export default function SignInPage() {
    const { imageUrl } = useLoaderData<typeof clientLoader>();
+   const action = useActionData<typeof clientAction>();
+   const navigation = useNavigation()
+
+
+
+   const [form, fields] = useForm({
+      id: "sign-in",
+      onValidate({ formData }) {
+         return parseWithZod(formData, { schema });
+      },
+      lastResult: action,
+      shouldRevalidate: "onBlur",
+   });
 
    return (
       <div className="min-h-[calc(100vh-136px)] flex items-center justify-center p-4">
@@ -31,19 +82,33 @@ export default function SignInPage() {
                   <p className="text-gray-500">Enter your email to receive a login code</p>
                </div>
                <div className="space-y-4">
-                  <div className="space-y-2">
-                     <div className="relative">
-                        <Input
-                           type="email"
-                           placeholder="your@email.com"
-                           className="pl-5 py-6 bg-gray-50/50"
-                        />
+                  <Form method="post" id={form.id} onSubmit={form.onSubmit}>
+                     <div className="space-y-2">
+                        <div className="relative">
+                           <Input
+                              name={fields.email.name}
+                              id="email"
+                              type="text"
+                              placeholder="your@email.com"
+                              className="pl-5 py-6 bg-gray-50/50"
+                           />
+                           {fields.email.errors && <FormError errors={fields.email.errors} />}
+                        </div>
                      </div>
-                  </div>
-                  <div className="h-5" />
-                  <Button className="w-full py-6 bg-purple-600 hover:bg-purple-700">
-                     Send Login Code
-                  </Button>
+                     <FormError errors={form.errors} />
+                     <div className="h-5" />
+                     <Button
+                        type="submit"
+                        disabled={navigation.state === "submitting"}
+                        className={cn(
+                           "w-full py-6 bg-purple-600 hover:bg-purple-700",
+                           {
+                              "opacity-40": navigation.state === "submitting",
+                           })}
+                     >
+                        Send Login Code
+                     </Button>
+                  </Form>
                </div>
 
                <hr />

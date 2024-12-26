@@ -30,19 +30,15 @@ interface StartIntervalProps {
 export const jobInterval = async ({ interval, jobs, timeout }: StartIntervalProps) => {
    const allFuncs = async () => {
       try {
-         console.log("This runs every", interval, "milliseconds");
-
          const timeoutPromise = new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Timeout reached!")), timeout),
          );
 
          const allJobs = Promise.all(jobs.map((f) => f()));
 
-         const result = await Promise.race([allJobs, timeoutPromise]);
-
-         console.log("Jobs report", result);
+         await Promise.race([allJobs, timeoutPromise]);
       } catch (error) {
-         console.error("Error running async functions:", error);
+         console.error("Error running background jobs:", error);
       }
    };
    await sleep(0);
