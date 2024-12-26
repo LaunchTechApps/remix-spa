@@ -1,9 +1,11 @@
-import Cookies from "js-cookie";
-import CryptoJS from "crypto-js";
 import { environment } from "@/environment";
+import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
+
+type CookieKey = "access" | "refresh" | "email";
 
 export const setSecureCookie = (
-   key: string,
+   key: CookieKey,
    value: string,
    options: Cookies.CookieAttributes = {},
 ): void => {
@@ -12,12 +14,12 @@ export const setSecureCookie = (
    Cookies.set(key, encryptedValue, {
       secure: true,
       sameSite: "Strict",
-      expires: 7,
+      expires: options.expires ?? 1,
       ...options,
    });
 };
 
-export const getSecureCookie = (key: string): string | null => {
+export const getSecureCookie = (key: CookieKey): string | null => {
    const encryptedValue = Cookies.get(key);
    if (!encryptedValue) return null;
 
@@ -30,6 +32,6 @@ export const getSecureCookie = (key: string): string | null => {
    }
 };
 
-export const deleteSecureCookie = (key: string): void => {
+export const deleteSecureCookie = (key: CookieKey): void => {
    Cookies.remove(key);
 };

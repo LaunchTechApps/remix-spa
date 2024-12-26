@@ -1,5 +1,14 @@
+import { api } from "@/api/api";
+import { getErrorResponse } from "@/api/util";
+import AsyncImg from "@/components/async-img";
+import { FormError } from "@/components/form-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/util";
+import type { TopNavSettings } from "@/routes/_layout/route";
+import { getSecureCookie, setSecureCookie } from "@/sessions";
+import { useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
 import {
    type ClientActionFunctionArgs,
    Form,
@@ -9,14 +18,7 @@ import {
    useLoaderData,
    useNavigation,
 } from "@remix-run/react";
-import AsyncImg from "@/components/async-img";
-import type { TopNavSettings } from "@/routes/_layout/route";
-import { cn, sleep } from "@/lib/util";
 import { z } from "zod";
-import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import { FormError } from "@/components/form-error";
-import { api } from "@/api/api";
 
 const schema = z.object({
    email: z.string().email(),
@@ -24,22 +26,21 @@ const schema = z.object({
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
    const formData = await request.formData();
-
    const submission = parseWithZod(formData, { schema });
-
-   const email = formData.get("email")?.valueOf().toString()
-   if (!email) return submission.reply({ formErrors: ["Email was not submitted"] });
-
-   const response = await api.requestOtp({ email })
-   if (!response.ok) {
-      console.error("something went wrong")
+   try {
+      const email = formData.get("email")?.valueOf().toString();
+      if (!email) return submission.reply({ formErrors: ["Email was not submitted"] });
+      await api.requestOtp({ email });
+      setSecureCookie("email", email)
+   } catch (error) {
+      const errRes = await getErrorResponse(error)
+      if (errRes && errRes.body?.friendlyMsg !== undefined) {
+         return submission.reply({ formErrors: [errRes.body?.friendlyMsg] });
+      }
+      return submission.reply({ formErrors: ["Unknown error was submitting email"] });
    }
 
-   if (submission.status !== "success") {
-      return submission.reply();
-   }
-
-   return redirect("/");
+   return redirect("/otp");
 };
 
 const getImg = async () => {
@@ -49,6 +50,9 @@ const getImg = async () => {
 };
 
 export const clientLoader = async () => {
+   if (getSecureCookie("access")) {
+      return redirect("/")
+   }
    return { imageUrl: getImg() };
 };
 
@@ -60,9 +64,7 @@ export const handle: TopNavSettings = {
 export default function SignInPage() {
    const { imageUrl } = useLoaderData<typeof clientLoader>();
    const action = useActionData<typeof clientAction>();
-   const navigation = useNavigation()
-
-
+   const navigation = useNavigation();
 
    const [form, fields] = useForm({
       id: "sign-in",
@@ -100,11 +102,9 @@ export default function SignInPage() {
                      <Button
                         type="submit"
                         disabled={navigation.state === "submitting"}
-                        className={cn(
-                           "w-full py-6 bg-purple-600 hover:bg-purple-700",
-                           {
-                              "opacity-40": navigation.state === "submitting",
-                           })}
+                        className={cn("w-full py-6 bg-purple-600 hover:bg-purple-700", {
+                           "opacity-40": navigation.state === "submitting",
+                        })}
                      >
                         Send Login Code
                      </Button>

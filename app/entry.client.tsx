@@ -4,11 +4,11 @@
  * For more information, see https://remix.run/file-conventions/entry.client
  */
 
+import { accessTokenJob, refreshTokenJob } from "@/lib/backgroundJobs";
+import { jobInterval, milliTo } from "@/lib/util";
 import { RemixBrowser } from "@remix-run/react";
 import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
-import { milliTo, jobInterval } from "@/lib/util";
-import { accessTokenJob, refreshTokenJob } from "@/lib/backgroundJobs";
 
 startTransition(() => {
    hydrateRoot(

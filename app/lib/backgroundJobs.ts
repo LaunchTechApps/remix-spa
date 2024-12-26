@@ -7,7 +7,7 @@ export const refreshTokenJob = async () => {
       console.log("refresh or access token missing");
       return;
    }
-   new Promise((resolve) => setTimeout(() => resolve(console.log("REFRESH token")), 1000));
+   new Promise((resolve) => setTimeout(() => resolve(console.log("ran job REFRESH token")), 1000));
 };
 
 export const accessTokenJob = async () => {
@@ -16,5 +16,5 @@ export const accessTokenJob = async () => {
       console.log("access token missing");
       return;
    }
-   new Promise((resolve) => setTimeout(() => resolve(console.log("REFRESH token")), 1000));
+   new Promise((resolve) => setTimeout(() => resolve(console.log("ran job ACCESS token")), 1000));
 };

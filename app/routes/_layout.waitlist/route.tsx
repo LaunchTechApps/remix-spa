@@ -2,8 +2,8 @@ import AsyncImg from "@/components/async-img";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Link, useLoaderData } from "@remix-run/react";
 import type { TopNavSettings } from "@/routes/_layout/route";
+import { Link, useLoaderData } from "@remix-run/react";
 
 const getImg = async () => {
    await new Promise((resolve) => setTimeout(resolve, 0));

@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation";
+import { useSession } from "@/hooks/use-session";
 import { Outlet, type Params, useMatches } from "@remix-run/react";
 import { useMemo } from "react";
 
@@ -18,12 +19,13 @@ export type Matches = {
 
 export default function Layout() {
    const { topNavSettings } = LayoutViewModel();
+   const { isSignedIn } = useSession()
    return (
       <div>
          <Navigation
             showNavLinks={topNavSettings?.showNavLinks}
             showSearch={topNavSettings?.showSearch}
-            isSignedIn={topNavSettings?.isSignedIn}
+            isSignedIn={isSignedIn}
          />
          <Outlet />
       </div>

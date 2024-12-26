@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { useSession } from "@/hooks/use-session";
 import { Link } from "@remix-run/react";
-import { ImageIcon, Menu, Search, User, LogIn, LogOut } from "lucide-react";
+import { ImageIcon, LogOut, Menu, Search, User } from "lucide-react";
 import { useState } from "react";
 
 interface NavigationProps {
@@ -66,6 +67,7 @@ export function Navigation({
 }
 
 const MobileMenu = (props: { isSignedIn?: boolean }) => {
+   const session = useSession();
    return (
       <Sheet>
          <SheetTrigger asChild>
@@ -100,6 +102,7 @@ const MobileMenu = (props: { isSignedIn?: boolean }) => {
                   <Link
                      to="sign-in"
                      className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                     onClick={session.signOut}
                   >
                      <LogOut size={20} />
                      <span>Log Out</span>

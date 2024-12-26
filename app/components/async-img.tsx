@@ -1,6 +1,6 @@
 import { cn } from "@/lib/util";
 import type { ClassValue } from "clsx";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface AsyncImageProps {
    src: string | Promise<string>;
@@ -21,7 +21,7 @@ const AsyncImg = (props: AsyncImageProps) => {
          try {
             const resolvedSrc = typeof src === "string" ? src : await src;
             setImageSrc(resolvedSrc);
-         } catch (err) {
+         } catch (_) {
             setError(true);
             setIsLoading(false);
          }
