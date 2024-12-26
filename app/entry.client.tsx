@@ -7,6 +7,7 @@
 import { RemixBrowser } from "@remix-run/react";
 import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
+import { milliTo, jobInterval } from "@/lib/util";
 
 startTransition(() => {
    hydrateRoot(
@@ -15,4 +16,26 @@ startTransition(() => {
          <RemixBrowser />
       </StrictMode>,
    );
+   jobInterval({
+      interval: milliTo.seconds(15),
+      timeout: 5000,
+      jobs: [
+         () => {
+            return new Promise((resolve) =>
+               setTimeout(() => resolve(console.log("ACCESS token")), 1000),
+            );
+         },
+      ],
+   });
+   jobInterval({
+      interval: milliTo.minutes(5),
+      timeout: 5000,
+      jobs: [
+         () => {
+            return new Promise((resolve) =>
+               setTimeout(() => resolve(console.log("REFRESH token")), 1000),
+            );
+         },
+      ],
+   });
 });

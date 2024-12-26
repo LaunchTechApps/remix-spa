@@ -11,7 +11,7 @@ import {
 export function Footer() {
    return (
       <footer className="bg-[#1C1C24] text-white py-12">
-         <div className="px-4 max-w-full">
+         <div className="px-4 max-w-screen-2xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                <div>
                   <Link to="/" className="flex items-center space-x-1">

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/styles";
+import { cn } from "@/lib/util";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { type VariantProps, cva } from "class-variance-authority";

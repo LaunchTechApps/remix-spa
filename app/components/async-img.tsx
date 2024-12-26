@@ -1,4 +1,4 @@
-import { cn } from "@/lib/styles";
+import { cn } from "@/lib/util";
 import type { ClassValue } from "clsx";
 import { useState, useEffect } from "react";
 
