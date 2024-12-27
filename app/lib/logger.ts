@@ -3,7 +3,7 @@ const LOG_LEVEL: LogLevel = import.meta.env.VITE_LOG_LEVEL;
 
 class Logger {
    private level: LogLevel;
-   private get now(): string {
+   private now(): string {
       return new Date().toISOString();
    }
 
@@ -28,17 +28,22 @@ class Logger {
 
    // biome-ignore lint/suspicious/noExplicitAny: Allowing flexible logging inputs for convenience.
    private log(level: LogLevel, message?: any, ...optionalParams: any[]): void {
-      if (this.shouldLog(level)) {
-         const location = this.getCallerLocation();
-         const logMessage = location
-            ? `[${level.toUpperCase()}] ${this.now} [${location}] ${message}`
-            : `[${level.toUpperCase()}] ${this.now} ${message}`;
-         if (optionalParams.length > 0) {
-            console[level](logMessage, ...optionalParams);
-         } else {
-            console[level](logMessage);
-         }
+      if (!this.shouldLog(level)) return;
+      const location = this.getCallerLocation();
+
+      // biome-ignore lint/suspicious/noExplicitAny: Allowing flexible logging inputs for convenience.
+      const logObject: Record<string, any> = {
+         level: level.toUpperCase(),
+         timestamp: this.now(),
+         message: message,
+         location: location,
+      };
+
+      if (optionalParams.length > 0) {
+         logObject.optionalParams = optionalParams;
       }
+
+      console[level](JSON.stringify(logObject));
    }
 
    // biome-ignore lint/suspicious/noExplicitAny: Allowing flexible logging inputs for convenience.

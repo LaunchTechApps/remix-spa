@@ -11,7 +11,7 @@ const environment = {
 
 for (const [key, val] of Object.entries(environment)) {
    if (!val) {
-      log.error(`MISSING ENV VAR: "${key}"`);
+      log.error(`MISSING ENV VAR: ${key}`);
    }
 }
 
