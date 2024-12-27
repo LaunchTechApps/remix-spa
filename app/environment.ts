@@ -1,15 +1,17 @@
-type Stage = "prod" | "uat" | "local";
-const stage: Stage = "prod"; // process.env.NODE_ENV || "local";
+import log from "@/lib/logger";
+
+export type Stage = "prod" | "uat" | "local";
+export type LogLevel = "debug" | "info" | "warn" | "error";
 
 const environment = {
-   stage: stage as Stage,
    apiBaseUrl: import.meta.env.VITE_API_URL,
    cookieKey: import.meta.env.VITE_COOKIE_KEY,
+   stage: import.meta.env.VITE_STAGE as Stage,
 };
 
 for (const [key, val] of Object.entries(environment)) {
    if (!val) {
-      console.error(`Missing required environment variable: ${key}`);
+      log.error(`MISSING ENV VAR: "${key}"`);
    }
 }
 

@@ -4,8 +4,8 @@
  * For more information, see https://remix.run/file-conventions/entry.client
  */
 
-import { accessTokenJob, refreshTokenJob } from "@/lib/backgroundJobs";
-import { jobInterval, milliTo } from "@/lib/util";
+import { accessTokenJob, jobInterval, refreshTokenJob } from "@/lib/backgroundJobs";
+import { milliTo } from "@/lib/util";
 import { RemixBrowser } from "@remix-run/react";
 import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
@@ -20,11 +20,11 @@ startTransition(() => {
    jobInterval({
       interval: milliTo.seconds(15),
       timeout: 5000,
-      jobs: [() => accessTokenJob()],
+      job: () => accessTokenJob(),
    });
    jobInterval({
       interval: milliTo.minutes(5),
       timeout: 5000,
-      jobs: [() => refreshTokenJob()],
+      job: () => refreshTokenJob(),
    });
 });

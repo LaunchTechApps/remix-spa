@@ -34,22 +34,24 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
       setSecureCookie("email", email)
    } catch (error) {
       const errRes = await getErrorResponse(error)
-      if (errRes && errRes.body?.friendlyMsg !== undefined) {
-         return submission.reply({ formErrors: [errRes.body?.friendlyMsg] });
+      if (errRes && errRes.friendlyMsg !== undefined) {
+         return submission.reply({ formErrors: [errRes.friendlyMsg] });
       }
-      return submission.reply({ formErrors: ["Unknown error was submitting email"] });
+      return submission.reply({ formErrors: ["Unknown error"] });
    }
 
    return redirect("/otp");
 };
 
-const getImg = async () => {
-   await new Promise((resolve) => setTimeout(resolve, 0));
-   const imageUrl = "https://images.unsplash.com/photo-1546930722-a1292ed9dee8";
-   return imageUrl;
-};
+
 
 export const clientLoader = async () => {
+   const getImg = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      const imageUrl = "https://images.unsplash.com/photo-1546930722-a1292ed9dee8";
+      return imageUrl;
+   };
+
    if (getSecureCookie("access")) {
       return redirect("/")
    }

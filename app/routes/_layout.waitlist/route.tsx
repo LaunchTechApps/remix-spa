@@ -5,13 +5,12 @@ import { Input } from "@/components/ui/input";
 import type { TopNavSettings } from "@/routes/_layout/route";
 import { Link, useLoaderData } from "@remix-run/react";
 
-const getImg = async () => {
-   await new Promise((resolve) => setTimeout(resolve, 0));
-   const imageUrl = "https://images.unsplash.com/photo-1542772144-515ddfae17e9";
-   return imageUrl;
-};
-
 export const clientLoader = async () => {
+   const getImg = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      const imageUrl = "https://images.unsplash.com/photo-1542772144-515ddfae17e9";
+      return imageUrl;
+   };
    return { imageUrl: getImg() };
 };
 
@@ -20,7 +19,7 @@ export const handle: TopNavSettings = {
    showNavLinks: false,
 };
 
-export default function RegisterPage() {
+export default function WaitlistPage() {
    const { imageUrl } = useLoaderData<typeof clientLoader>();
    return (
       <div className="min-h-[calc(100vh-136px)] flex items-center justify-center p-4">

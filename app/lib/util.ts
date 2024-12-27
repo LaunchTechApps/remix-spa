@@ -20,30 +20,3 @@ export const secondsTo = {
 
 export const sleep = async (milli: number) =>
    await new Promise((resolve) => setTimeout(resolve, milli));
-
-interface StartIntervalProps {
-   interval: number;
-   jobs: (() => Promise<void>)[];
-   timeout: number;
-}
-
-export const jobInterval = async ({ interval, jobs, timeout }: StartIntervalProps) => {
-   const allFuncs = async () => {
-      try {
-         const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Timeout reached!")), timeout),
-         );
-
-         const allJobs = Promise.all(jobs.map((f) => f()));
-
-         await Promise.race([allJobs, timeoutPromise]);
-      } catch (error) {
-         console.error("Error running background jobs:", error);
-      }
-   };
-   await sleep(0);
-   await allFuncs();
-   setInterval(async () => {
-      await allFuncs();
-   }, interval);
-};

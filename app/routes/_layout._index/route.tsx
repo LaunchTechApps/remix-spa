@@ -16,8 +16,6 @@ import { fakeData } from './fake-data'
 import { useLoaderData } from "@remix-run/react";
 import { useSession } from "@/hooks/use-session";
 
-
-
 export const clientLoader = async () => {
    return {
       events: fakeData.events,

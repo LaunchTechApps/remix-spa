@@ -1,6 +1,7 @@
 import { environment } from "@/environment";
 import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
+import log from "@/lib/logger";
 
 type CookieKey = "access" | "refresh" | "email";
 
@@ -27,11 +28,17 @@ export const getSecureCookie = (key: CookieKey): string | null => {
       const bytes = CryptoJS.AES.decrypt(encryptedValue, environment.cookieKey);
       return bytes.toString(CryptoJS.enc.Utf8);
    } catch (error) {
-      console.error("Error decrypting cookie:", error);
+      log.error("Error decrypting cookie:", error);
       return null;
    }
 };
 
 export const deleteSecureCookie = (key: CookieKey): void => {
    Cookies.remove(key);
+};
+
+export const deleteAllCookies = (): void => {
+   deleteSecureCookie("access");
+   deleteSecureCookie("refresh");
+   deleteSecureCookie("email");
 };

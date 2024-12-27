@@ -38,7 +38,7 @@ export interface CtrlutilSimpleResponse {
 }
 
 export interface TokenctrlAccessTokenResponse {
-  access_token?: string;
+  accessToken?: string;
 }
 
 export interface UsermgrOtpConformResponse {
@@ -313,7 +313,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<CtrlutilSimpleResponse, CtrlutilSimpleResponse>({
+      this.request<CtrlutilSimpleResponse, CtrlutilErrorResponse>({
         path: `/api/token/is-active`,
         method: "GET",
         query: query,
@@ -331,7 +331,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/token/new-access
      */
     newAccessToken: (params: RequestParams = {}) =>
-      this.request<TokenctrlAccessTokenResponse, CtrlutilSimpleResponse>({
+      this.request<TokenctrlAccessTokenResponse, CtrlutilErrorResponse>({
         path: `/api/token/new-access`,
         method: "GET",
         type: ContentType.Json,

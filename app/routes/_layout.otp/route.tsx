@@ -14,6 +14,7 @@ import { FormError } from '@/components/form-error'
 import { getSecureCookie, setSecureCookie } from '@/sessions'
 import { api } from '@/api/api'
 import { useSession } from '@/hooks/use-session'
+import log from '@/lib/logger'
 
 export const handle: TopNavSettings = {
    showSearch: false,
@@ -38,6 +39,8 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
       if (!accessToken || !refreshToken) {
          return submission.reply({ formErrors: ["Submission error"] });
       }
+      log.info("new accessToken set:", accessToken)
+      log.info("new refreshToken set:", refreshToken)
       setSecureCookie("access", accessToken)
       setSecureCookie("refresh", refreshToken, { expires: 30 })
       return submission.reply();
