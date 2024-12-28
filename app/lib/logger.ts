@@ -31,17 +31,17 @@ class Logger {
       if (!this.shouldLog(level)) return;
       const location = this.getCallerLocation();
 
+      const messages = [];
+      if (message) messages.push(message);
+      optionalParams?.map((param) => messages.push(param));
+
       // biome-ignore lint/suspicious/noExplicitAny: Allowing flexible logging inputs for convenience.
       const logObject: Record<string, any> = {
          level: level.toUpperCase(),
          timestamp: this.now(),
-         message: message,
+         message: messages,
          location: location,
       };
-
-      if (optionalParams.length > 0) {
-         logObject.optionalParams = optionalParams;
-      }
 
       console[level](JSON.stringify(logObject));
    }

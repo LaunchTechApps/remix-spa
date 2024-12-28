@@ -141,8 +141,6 @@ const VerifyOtpViewModel = () => {
       }
    }
 
-   log.debug(session);
-
    const [form, fields] = useForm({
       id: "otp-signin",
       onValidate({ formData }) {

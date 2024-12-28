@@ -299,6 +299,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Signs out the user by invalidating their session or JWT token
+     *
+     * @tags accounts
+     * @name AccountSignOutCreate
+     * @summary Signs out a user
+     * @request POST:/api/account/sign-out
+     */
+    accountSignOutCreate: (params: RequestParams = {}) =>
+      this.request<CtrlutilSimpleResponse, CtrlutilErrorResponse>({
+        path: `/api/account/sign-out`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Validates the provided token based on its type (access or refresh) and returns whether the token is valid or not
      *
      * @tags token

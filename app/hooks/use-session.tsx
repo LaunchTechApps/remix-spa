@@ -1,4 +1,5 @@
-import { deleteSecureCookie, getSecureCookie } from "@/sessions";
+import { api } from "@/api/api";
+import { deleteSecureCookie, getSecureCookie, getUserClaims } from "@/sessions";
 import { type ReactNode, createContext, useContext, useEffect, useMemo, useState } from "react";
 
 interface UserSessionContextType {
@@ -6,6 +7,7 @@ interface UserSessionContextType {
    isSignedIn: boolean;
    signIn: (accessToken: string) => void;
    signOut: () => void;
+   getClaims: () => Record<string, string> | undefined;
 }
 
 const UserSessionContext = createContext<UserSessionContextType | undefined>(undefined);
@@ -32,14 +34,16 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
    const signOut = () => {
       setAccessToken("");
       setSignedIn(false);
+      // api.signOut -=-=- here -=-=-
       deleteSecureCookie("access");
       deleteSecureCookie("refresh");
    };
 
-   const value = useMemo(
-      () => ({ accessToken, isSignedIn, signIn, signOut }),
-      [accessToken, isSignedIn],
-   );
+   const getClaims = () => getUserClaims()
+
+   const session = { accessToken, isSignedIn, signIn, signOut, getClaims }
+
+   const value = useMemo(() => (session), [accessToken, isSignedIn]);
 
    return <UserSessionContext.Provider value={value}>{children}</UserSessionContext.Provider>;
 };

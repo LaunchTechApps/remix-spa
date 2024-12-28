@@ -8,6 +8,7 @@
       "build": "remix vite:build",
       "dev": "remix vite:dev",
       "genswag:prod": "npx swagger-typescript-api -p https://zsm18cjui9.execute-api.us-east-2.amazonaws.com/swagger/doc.json -o ./app/api -n client.g.ts",
+      "genswag:local": "npx swagger-typescript-api -p http://localhost:1323/swagger/doc.json -o ./app/api -n client.g.ts",
       "deploy": "pnpm build && gh-pages -d build",
       "lint:check": "pnpm biome check .",
       "lint:fix": "npx biome check --fix --unsafe"

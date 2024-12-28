@@ -2,6 +2,7 @@ import { environment } from "@/environment";
 import log from "@/lib/logger";
 import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 type CookieKey = "access" | "refresh" | "email";
 
@@ -35,6 +36,19 @@ export const getSecureCookie = (key: CookieKey): string | null => {
 
 export const deleteSecureCookie = (key: CookieKey): void => {
    Cookies.remove(key);
+};
+
+export const getUserClaims = () => {
+   const token = getSecureCookie("access");
+   if (!token) {
+      return undefined;
+   }
+   const result: Record<string, string> = {};
+   const claims = jwtDecode(token);
+   for (const [key, val] of Object.entries(claims)) {
+      result[key] = val.toString();
+   }
+   return result;
 };
 
 export const deleteAllCookies = (): void => {
