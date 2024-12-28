@@ -10,20 +10,20 @@ interface StartIntervalProps {
    timeout: number;
 }
 export const jobInterval = async ({ interval, job, timeout }: StartIntervalProps) => {
-   const allFuncs = async () => {
+   const jobWrapper = async () => {
       try {
          const timeoutPromise = new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Timeout reached!")), timeout),
          );
-         await Promise.race([job, timeoutPromise]);
+         await Promise.race([job(), timeoutPromise]);
       } catch (error) {
          log.error("Error running background jobs:", error);
       }
    };
-   await sleep(0);
-   await allFuncs();
+   await sleep(250);
+   await jobWrapper();
    setInterval(async () => {
-      await allFuncs();
+      await jobWrapper();
    }, interval);
 };
 
@@ -55,7 +55,7 @@ export const refreshTokenJob = async () => {
       !errRes ? log.info("ERR_RES", JSON.stringify(errRes)) : log.info("ERR_RES FOUND NULLLLL");
 
       if (errRes?.isStatus(HttpStatus.Unauthorized)) {
-         log.warn("Unauthorized (401) error. Deleting all cookies...");
+         log.warn("Unauthorized (401) error. Deleting all cookies");
          deleteAllCookies();
       } else {
          log.error("Unexpected error response:", errRes);
@@ -64,7 +64,7 @@ export const refreshTokenJob = async () => {
 };
 
 export const accessTokenJob = async () => {
-   log.info("Starting accessTokenJob...");
+   log.info("Starting accessTokenJob");
    const accessToken = getSecureCookie("access");
 
    if (!accessToken) {
@@ -73,7 +73,7 @@ export const accessTokenJob = async () => {
    }
 
    try {
-      log.info("Checking if access token is active...");
+      log.info("Checking if access token is active");
       await api.isActive(
          { type: "access" },
          {
@@ -87,8 +87,10 @@ export const accessTokenJob = async () => {
       log.warn("Error occurred during accessTokenJob:", error);
       const errRes = await getErrorResponse(error);
 
-      if (errRes && errRes.status === 401) {
-         log.warn("Unauthorized (401) error. Calling refreshTokenJob...");
+      !errRes ? log.info("ERR_RES", JSON.stringify(errRes)) : log.info("ERR_RES FOUND NULLLLL");
+
+      if (errRes?.isStatus(HttpStatus.Unauthorized)) {
+         log.warn("Unauthorized (401) error. Calling refreshTokenJob");
          await refreshTokenJob();
       } else {
          log.error("Unexpected error response:", errRes);

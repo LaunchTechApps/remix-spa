@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useSession } from "@/hooks/use-session";
+import log from "@/lib/logger";
 import { Link, useNavigate } from "@remix-run/react";
 import { BookCheck, ChevronDown, ImageIcon, LogIn, LogOut, Menu, Search, Settings, User } from "lucide-react";
 import { useState } from "react";
@@ -9,8 +10,7 @@ import { useState } from "react";
 type Route = "main" | "onboard"
 
 export function Navigation({ forRoute: route }: { forRoute: Route }) {
-   const [isSearchOpen, setIsSearchOpen] = useState(false);
-   const session = useSession();
+   const { setIsSearchOpen, isSearchOpen, isSignedIn } = NavigationViewModel()
 
    return (
       <div className="w-full bg-white border-b-2 fixed top-0 z-50">
@@ -41,7 +41,7 @@ export function Navigation({ forRoute: route }: { forRoute: Route }) {
                {route === "main" && (
                   <div className="flex justify-end w-64">
                      <div className="hidden md:block">
-                        {session.isSignedIn ? <SignedIn /> : <Anonymous />}
+                        {isSignedIn ? <SignedIn /> : <Anonymous />}
                      </div>
 
                      <div className="md:hidden">
@@ -74,12 +74,7 @@ interface HamburgerMenuProps {
 }
 
 const HamburgerMenu = (props: HamburgerMenuProps) => {
-   const session = useSession();
-   const navigate = useNavigate()
-   const signOut = () => {
-      session.signOut();
-      setTimeout(() => navigate("/sign-in"), 0);
-   }
+   const { signOut, isSignedIn } = NavigationViewModel()
 
    return (
       <>
@@ -101,7 +96,7 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
                <SheetHeader>
                   <SheetTitle>Menu</SheetTitle>
                </SheetHeader>
-               {session.isSignedIn ?
+               {isSignedIn ?
                   (
                      <div className="mt-6 flex flex-col space-y-4">
                         <Link to="/artist/1" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
@@ -136,12 +131,8 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
 }
 
 const SignedIn = () => {
-   const session = useSession()
-   const navigate = useNavigate()
-   const signOut = () => {
-      session.signOut();
-      setTimeout(() => navigate("/sign-in"), 0);
-   }
+   const { signOut } = NavigationViewModel()
+
    return (
       <div className="hidden md:flex items-center w-full">
          <Link to="/" className="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-gray-900">
@@ -185,4 +176,21 @@ const Anonymous = () => {
          </Link>
       </div>
    )
+}
+
+const NavigationViewModel = () => {
+   const [isSearchOpen, setIsSearchOpen] = useState(false);
+   const session = useSession();
+   const navigate = useNavigate()
+
+   const signOut = () => session.signOut()
+      .then(() => setTimeout(() => navigate("/sign-in"), 250))
+      .catch((error) => log.error(error));
+
+   return {
+      isSearchOpen,
+      setIsSearchOpen,
+      signOut,
+      isSignedIn: session.isSignedIn
+   }
 }

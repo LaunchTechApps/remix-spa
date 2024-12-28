@@ -133,28 +133,28 @@ export const HttpStatus = {
 
 type ContentType = "application/json" | "text/html" | "application/xml" | "multipart/form-data";
 export class HeadersBuilder {
-   private headers = new Headers();
+   private headers: Record<string, string> = {};
 
    static New(): HeadersBuilder {
       return new HeadersBuilder();
    }
 
    setAccessToken(accessToken: string): this {
-      this.headers.append("x-cur-access", accessToken);
+      this.headers["x-cur-access"] = accessToken;
       return this;
    }
 
    setRefreshToken(refreshToken: string): this {
-      this.headers.append("x-cur-refresh", refreshToken);
+      this.headers["x-cur-refresh"] = refreshToken;
       return this;
    }
 
    setContentType(contentType: ContentType): this {
-      this.headers.append("Content-Type", contentType);
+      this.headers["Content-Type"] = contentType;
       return this;
    }
 
-   build(): { headers: Headers } {
+   build(): { headers: Record<string, string> } {
       return { headers: this.headers };
    }
 }

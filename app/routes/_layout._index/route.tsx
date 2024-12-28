@@ -9,17 +9,14 @@ import {
    CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useSession } from "@/hooks/use-session";
-import { getSecureCookie, getUserClaims } from "@/sessions";
+import { getSecureCookie } from "@/sessions";
 import { useLoaderData } from "@remix-run/react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Calendar, ChevronLeft, ChevronRight, DollarSign, MapPin } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { fakeData } from "./fake-data";
-import log from "@/lib/logger";
 
 export const clientLoader = async () => {
-   const claims = getUserClaims()
-   log.info("claims", claims)
    return {
       events: fakeData.events,
       recentlyPurchased: fakeData.recentlyPurchased,

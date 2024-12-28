@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useSession } from "@/hooks/use-session";
 import log from "@/lib/logger";
+import { cn } from "@/lib/util";
 import { getSecureCookie, setSecureCookie } from "@/sessions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
@@ -88,7 +89,10 @@ export default function VerifyOtpPage() {
                         </div>
                         <Button
                            type="submit"
-                           className="w-64 bg-purple-600 hover:bg-purple-700 mx-auto flex"
+                           className={cn("w-64 bg-purple-600 hover:bg-purple-700 mx-auto flex", {
+                              "opacity-50": vm.isSubmitting,
+                           })}
+                           disabled={vm.isSubmitting}
                         >
                            Confirm
                         </Button>
@@ -124,20 +128,22 @@ const VerifyOtpViewModel = () => {
    const navigate = useNavigate();
    const session = useSession();
 
+   const isSubmitting = action?.status === "success"
+
    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newOtp = e.target.value.replace(/[^0-9]/g, "");
       setOtp(newOtp);
    };
 
    useEffect(() => {
-      if (session.isSignedIn) navigate("/");
+      if (session.isSignedIn) setTimeout(() => navigate("/"), 150);
    }, [session.isSignedIn]);
 
-   if (action?.status === "success") {
+   if (isSubmitting) {
       const accessToken = getSecureCookie("access");
       const refreshToken = getSecureCookie("refresh");
       if (accessToken && refreshToken) {
-         session.signIn(accessToken);
+         session.signIn(accessToken)
       }
    }
 
@@ -156,5 +162,6 @@ const VerifyOtpViewModel = () => {
       handleInputChange,
       form,
       fields,
+      isSubmitting,
    };
 };
