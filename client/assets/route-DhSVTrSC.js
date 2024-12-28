@@ -1,2 +1,1 @@
 import{j as o}from"./jsx-runtime-DrMmwDmt.js";import{N as t}from"./navigation-BAWcR_lp.js";import{O as r}from"./components-BPHQ0Pcy.js";import"./input-O1wl_rFB.js";import"./util-HVvozJ9v.js";import"./react-icons.esm-DnXjuTK2.js";import"./use-session-DUYmeLH9.js";import"./sessions-inXgIWnD.js";import"./createLucideIcon-DkxNIuRF.js";function x(){return o.jsxs("div",{children:[o.jsx(t,{forRoute:"onboard"}),o.jsx(r,{})]})}export{x as default};
-//# sourceMappingURL=route-DhSVTrSC.js.map
