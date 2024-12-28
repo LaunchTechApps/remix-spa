@@ -19,7 +19,7 @@ export type Matches = {
 
 export default function Layout() {
    const { topNavSettings } = LayoutViewModel();
-   const { isSignedIn } = useSession()
+   const { isSignedIn } = useSession();
    return (
       <div>
          <Navigation

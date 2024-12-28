@@ -27,9 +27,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <Links />
          </head>
          <body>
-            <UserSessionProvider>
-               {children}
-            </UserSessionProvider>
+            <UserSessionProvider>{children}</UserSessionProvider>
             <ScrollRestoration />
             <Scripts />
          </body>

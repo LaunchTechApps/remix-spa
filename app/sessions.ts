@@ -1,7 +1,7 @@
 import { environment } from "@/environment";
+import log from "@/lib/logger";
 import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
-import log from "@/lib/logger";
 
 type CookieKey = "access" | "refresh" | "email";
 

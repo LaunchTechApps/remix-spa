@@ -1,4 +1,3 @@
-import type { CtrlutilErrorBody, CtrlutilErrorResponse } from "@/api/client.g";
 import { parseWithZod } from "@conform-to/zod";
 import type { z } from "zod";
 
@@ -131,3 +130,31 @@ export const HttpStatus = {
    NotExtended: 510,
    NetworkAuthenticationRequired: 511,
 };
+
+type ContentType = "application/json" | "text/html" | "application/xml" | "multipart/form-data";
+export class HeadersBuilder {
+   private headers = new Headers();
+
+   static New(): HeadersBuilder {
+      return new HeadersBuilder();
+   }
+
+   setAccessToken(accessToken: string): this {
+      this.headers.append("x-cur-access", accessToken);
+      return this;
+   }
+
+   setRefreshToken(refreshToken: string): this {
+      this.headers.append("x-cur-refresh", refreshToken);
+      return this;
+   }
+
+   setContentType(contentType: ContentType): this {
+      this.headers.append("Content-Type", contentType);
+      return this;
+   }
+
+   build(): { headers: Headers } {
+      return { headers: this.headers };
+   }
+}

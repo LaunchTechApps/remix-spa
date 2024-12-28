@@ -31,9 +31,9 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
       const email = formData.get("email")?.valueOf().toString();
       if (!email) return submission.reply({ formErrors: ["Email was not submitted"] });
       await api.requestOtp({ email });
-      setSecureCookie("email", email)
+      setSecureCookie("email", email);
    } catch (error) {
-      const errRes = await getErrorResponse(error)
+      const errRes = await getErrorResponse(error);
       if (errRes && errRes.friendlyMsg !== undefined) {
          return submission.reply({ formErrors: [errRes.friendlyMsg] });
       }
@@ -43,8 +43,6 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
    return redirect("/otp");
 };
 
-
-
 export const clientLoader = async () => {
    const getImg = async () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
@@ -53,7 +51,7 @@ export const clientLoader = async () => {
    };
 
    if (getSecureCookie("access")) {
-      return redirect("/")
+      return redirect("/");
    }
    return { imageUrl: getImg() };
 };

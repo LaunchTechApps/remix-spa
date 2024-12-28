@@ -1,8 +1,8 @@
 import { api } from "@/api/api";
-import { getErrorResponse, HttpStatus } from "@/api/util";
-import { deleteAllCookies, getSecureCookie, setSecureCookie } from "@/sessions";
-import { sleep } from "@/lib/util";
+import { HeadersBuilder, HttpStatus, getErrorResponse } from "@/api/util";
 import log from "@/lib/logger";
+import { sleep } from "@/lib/util";
+import { deleteAllCookies, getSecureCookie, setSecureCookie } from "@/sessions";
 
 interface StartIntervalProps {
    interval: number;
@@ -29,60 +29,31 @@ export const jobInterval = async ({ interval, job, timeout }: StartIntervalProps
 };
 
 export const refreshTokenJob = async () => {
-   log.info("Starting refreshTokenJob...");
    const accessToken = getSecureCookie("access");
    const refreshToken = getSecureCookie("refresh");
 
-   if (!accessToken || !refreshToken) {
-      log.warn(
-         "Refresh or access token missing. Access:",
-         !!accessToken,
-         "Refresh:",
-         !!refreshToken,
-      );
-      return;
-   }
+   if (!accessToken || !refreshToken) return;
 
-   const headers = new Headers();
-   headers.append("x-cur-access", accessToken);
-   headers.append("x-cur-refresh", refreshToken);
+   const headers = HeadersBuilder.New()
+      .setAccessToken(accessToken)
+      .setRefreshToken(refreshToken)
+      .build();
 
    try {
-      log.info("Checking if refresh token is active...");
-      await api.isActive(
-         { type: "refresh" },
-         {
-            headers: {
-               "x-cur-access": accessToken,
-               "x-cur-refresh": refreshToken,
-            },
-         },
-      );
-      log.info("Refresh token is active. Requesting new access token...");
+      await api.isActive({ type: "refresh" }, headers);
 
-      const response = await api.newAccessToken({
-         headers: {
-            "x-cur-access": accessToken,
-            "x-cur-refresh": refreshToken,
-         },
-      });
+      const response = await api.newAccessToken(headers);
+
       const newAccessToken = response.data.accessToken;
 
       if (newAccessToken) {
-         log.info("New access token received. Updating secure cookie...");
          setSecureCookie("access", newAccessToken);
-      } else {
-         log.warn("No access token returned in response.");
       }
    } catch (error) {
-      log.error("Error occurred during refreshTokenJob:", error);
+      log.warn("Error occurred during refreshTokenJob:", error);
       const errRes = await getErrorResponse(error);
 
-      if (errRes) {
-         log.info("ERR_RES", JSON.stringify(errRes));
-      } else {
-         log.info("ERR_RES FOUND NULLLLL");
-      }
+      !errRes ? log.info("ERR_RES", JSON.stringify(errRes)) : log.info("ERR_RES FOUND NULLLLL");
 
       if (errRes?.isStatus(HttpStatus.Unauthorized)) {
          log.warn("Unauthorized (401) error. Deleting all cookies...");
@@ -114,7 +85,7 @@ export const accessTokenJob = async () => {
       );
       log.info("Access token is active.");
    } catch (error) {
-      log.error("Error occurred during accessTokenJob:", error);
+      log.warn("Error occurred during accessTokenJob:", error);
       const errRes = await getErrorResponse(error);
 
       if (errRes && errRes.status === 401) {

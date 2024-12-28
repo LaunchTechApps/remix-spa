@@ -7,7 +7,7 @@
    },
    "files": {
       "ignoreUnknown": true,
-      "ignore": ["*.js", "cdk.out/*", "api/client.g.ts"]
+      "ignore": ["*.js", "cdk.out/*", "*.css", "api/client.g.ts"]
    },
    "formatter": {
       "enabled": true,
@@ -34,7 +34,7 @@
                "fix": "none"
             },
             "useExhaustiveDependencies": {
-               "level": "warn",
+               "level": "off",
                "options": {}
             }
          },

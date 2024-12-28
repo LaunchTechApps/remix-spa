@@ -1,12 +1,5 @@
 import { deleteSecureCookie, getSecureCookie } from "@/sessions";
-import {
-   createContext,
-   useContext,
-   useState,
-   useMemo,
-   type ReactNode,
-   useEffect,
-} from "react";
+import { type ReactNode, createContext, useContext, useEffect, useMemo, useState } from "react";
 
 interface UserSessionContextType {
    accessToken: string;
@@ -17,37 +10,38 @@ interface UserSessionContextType {
 
 const UserSessionContext = createContext<UserSessionContextType | undefined>(undefined);
 export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
-   const [accessToken, setAccessToken] = useState("")
-   const [isSignedIn, setSignedIn] = useState(false)
+   const [accessToken, setAccessToken] = useState("");
+   const [isSignedIn, setSignedIn] = useState(false);
 
    useEffect(() => {
       const timeout = setTimeout(() => {
-         const token = getSecureCookie("access")
+         const token = getSecureCookie("access");
          if (token) {
-            setSignedIn(true)
-            setAccessToken(accessToken)
+            setSignedIn(true);
+            setAccessToken(accessToken);
          }
       }, 0);
       return () => clearTimeout(timeout);
    }, []);
 
    const signIn = (accessToken: string) => {
-      setAccessToken(accessToken)
-      setSignedIn(true)
+      setAccessToken(accessToken);
+      setSignedIn(true);
    };
 
    const signOut = () => {
-      setAccessToken("")
-      setSignedIn(false)
-      deleteSecureCookie("access")
-      deleteSecureCookie("refresh")
-   }
+      setAccessToken("");
+      setSignedIn(false);
+      deleteSecureCookie("access");
+      deleteSecureCookie("refresh");
+   };
 
-   const value = useMemo(() => ({ accessToken, isSignedIn, signIn, signOut }), [accessToken, isSignedIn]);
-
-   return (
-      <UserSessionContext.Provider value={value}>{children}</UserSessionContext.Provider>
+   const value = useMemo(
+      () => ({ accessToken, isSignedIn, signIn, signOut }),
+      [accessToken, isSignedIn],
    );
+
+   return <UserSessionContext.Provider value={value}>{children}</UserSessionContext.Provider>;
 };
 
 export const useSession = () => {

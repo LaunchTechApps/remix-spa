@@ -8,29 +8,29 @@ import {
    CarouselNext,
    CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useSession } from "@/hooks/use-session";
 import { getSecureCookie } from "@/sessions";
+import { useLoaderData } from "@remix-run/react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Calendar, ChevronLeft, ChevronRight, DollarSign, MapPin } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { fakeData } from './fake-data'
-import { useLoaderData } from "@remix-run/react";
-import { useSession } from "@/hooks/use-session";
+import { fakeData } from "./fake-data";
 
 export const clientLoader = async () => {
    return {
       events: fakeData.events,
       recentlyPurchased: fakeData.recentlyPurchased,
       trendingArtworks: fakeData.trendingArtworks,
-   }
+   };
 };
 
 export default function Index() {
    const { events, recentlyPurchased, trendingArtworks } = useLoaderData<typeof clientLoader>();
 
-   const session = useSession()
+   const session = useSession();
    if (!session.isSignedIn) {
-      const accessToken = getSecureCookie("access")
-      if (accessToken) session.signIn(accessToken)
+      const accessToken = getSecureCookie("access");
+      if (accessToken) session.signIn(accessToken);
    }
 
    const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -77,10 +77,11 @@ export default function Index() {
                            className="flex-[0_0_100%] sm:flex-[0_0_80%] min-w-0 relative px-2 sm:px-4"
                         >
                            <div
-                              className={`relative rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-300 ${index === selectedIndex
-                                 ? "scale-100 opacity-100"
-                                 : "scale-95 sm:scale-90 opacity-70 sm:opacity-50"
-                                 }`}
+                              className={`relative rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-300 ${
+                                 index === selectedIndex
+                                    ? "scale-100 opacity-100"
+                                    : "scale-95 sm:scale-90 opacity-70 sm:opacity-50"
+                              }`}
                            >
                               <img
                                  src={event.image}
