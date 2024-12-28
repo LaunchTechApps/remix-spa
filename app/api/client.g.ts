@@ -302,11 +302,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Signs out the user by invalidating their session or JWT token
      *
      * @tags accounts
-     * @name AccountSignOutCreate
-     * @summary Signs out a user
+     * @name SignOut
+     * @summary Signs Out
      * @request POST:/api/account/sign-out
      */
-    accountSignOutCreate: (params: RequestParams = {}) =>
+    signOut: (params: RequestParams = {}) =>
       this.request<CtrlutilSimpleResponse, CtrlutilErrorResponse>({
         path: `/api/account/sign-out`,
         method: "POST",
