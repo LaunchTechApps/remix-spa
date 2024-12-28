@@ -5,7 +5,6 @@ import { FormError } from "@/components/form-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/util";
-import type { TopNavSettings } from "@/routes/_layout/route";
 import { getSecureCookie, setSecureCookie } from "@/sessions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
@@ -54,11 +53,6 @@ export const clientLoader = async () => {
       return redirect("/");
    }
    return { imageUrl: getImg() };
-};
-
-export const handle: TopNavSettings = {
-   showSearch: false,
-   showNavLinks: false,
 };
 
 export default function SignInPage() {

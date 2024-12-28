@@ -77,11 +77,10 @@ export default function Index() {
                            className="flex-[0_0_100%] sm:flex-[0_0_80%] min-w-0 relative px-2 sm:px-4"
                         >
                            <div
-                              className={`relative rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-300 ${
-                                 index === selectedIndex
-                                    ? "scale-100 opacity-100"
-                                    : "scale-95 sm:scale-90 opacity-70 sm:opacity-50"
-                              }`}
+                              className={`relative rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-300 ${index === selectedIndex
+                                 ? "scale-100 opacity-100"
+                                 : "scale-95 sm:scale-90 opacity-70 sm:opacity-50"
+                                 }`}
                            >
                               <img
                                  src={event.image}
@@ -176,7 +175,7 @@ export default function Index() {
                      </div>
                   </div>
 
-                  <Carousel className="w-full">
+                  <Carousel className="2xl:w-[98%] w-[94%] m-auto">
                      <CarouselContent className="-ml-2 md:-ml-4">
                         {trendingArtworks.map((artwork) => (
                            <CarouselItem

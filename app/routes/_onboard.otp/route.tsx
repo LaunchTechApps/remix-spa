@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useSession } from "@/hooks/use-session";
 import log from "@/lib/logger";
-import type { TopNavSettings } from "@/routes/_layout/route";
 import { getSecureCookie, setSecureCookie } from "@/sessions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
@@ -21,11 +20,6 @@ import {
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-
-export const handle: TopNavSettings = {
-   showSearch: false,
-   showNavLinks: false,
-};
 
 const schema = z.object({
    code: z.string(),

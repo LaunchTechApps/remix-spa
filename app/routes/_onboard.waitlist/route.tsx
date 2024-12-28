@@ -2,7 +2,6 @@ import AsyncImg from "@/components/async-img";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import type { TopNavSettings } from "@/routes/_layout/route";
 import { Link, useLoaderData } from "@remix-run/react";
 
 export const clientLoader = async () => {
@@ -12,11 +11,6 @@ export const clientLoader = async () => {
       return imageUrl;
    };
    return { imageUrl: getImg() };
-};
-
-export const handle: TopNavSettings = {
-   showSearch: false,
-   showNavLinks: false,
 };
 
 export default function WaitlistPage() {

@@ -26,12 +26,16 @@
             "noConsoleLog": {
                "level": "warn",
                "fix": "none"
+            },
+            "noEmptyInterface": {
+               "level": "warn",
+               "fix": "safe"
             }
          },
          "correctness": {
             "noUnusedVariables": {
                "level": "warn",
-               "fix": "none"
+               "fix": "safe"
             },
             "useExhaustiveDependencies": {
                "level": "off",

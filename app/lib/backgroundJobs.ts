@@ -9,7 +9,6 @@ interface StartIntervalProps {
    job: () => Promise<void>;
    timeout: number;
 }
-
 export const jobInterval = async ({ interval, job, timeout }: StartIntervalProps) => {
    const allFuncs = async () => {
       try {
