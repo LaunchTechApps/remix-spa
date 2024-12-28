@@ -36,6 +36,10 @@
             "useExhaustiveDependencies": {
                "level": "off",
                "options": {}
+            },
+            "noUnusedImports": {
+               "fix": "safe",
+               "level": "warn"
             }
          },
          "style": {
