@@ -5,7 +5,7 @@ export default function Layout() {
    return (
       <div>
          <Navigation forRoute="main" />
-         <div className="mt-12" />
+         <div />
          <Outlet />
       </div>
    );

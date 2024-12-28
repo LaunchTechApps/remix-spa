@@ -18,5 +18,12 @@ export const secondsTo = {
    days: (num: number) => secondsTo.hours(num) * 24,
 };
 
-export const sleep = async (milli: number) =>
-   await new Promise((resolve) => setTimeout(resolve, milli));
+export const sleep = {
+   mili: (mili: number): Promise<void> => {
+      return new Promise((resolve) => setTimeout(resolve, mili));
+   },
+   seconds: (sec: number): Promise<void> => {
+      const milliseconds = milliTo.seconds(sec);
+      return new Promise((resolve) => setTimeout(resolve, milliseconds));
+   },
+};

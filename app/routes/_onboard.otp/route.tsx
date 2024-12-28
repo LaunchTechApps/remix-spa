@@ -61,7 +61,7 @@ export default function VerifyOtpPage() {
                   <CardHeader className="space-y-1 text-center">
                      <CardTitle className="text-2xl">OTP Verification</CardTitle>
                      <p className="text-sm text-gray-500">
-                        Enter OTP we will send to useradmit@gmail.com
+                        Enter OTP we will send to example@email.com
                      </p>
                   </CardHeader>
                   <CardContent>

@@ -99,11 +99,11 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
                {isSignedIn ?
                   (
                      <div className="mt-6 flex flex-col space-y-4">
-                        <Link to="/artist/1" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+                        <Link to="#" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
                            <ImageIcon size={20} />
                            <span>Portfolio</span>
                         </Link>
-                        <Link to="/register" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+                        <Link to="#" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
                            <Settings size={20} />
                            <span>Settings</span>
                         </Link>
@@ -184,7 +184,7 @@ const NavigationViewModel = () => {
    const navigate = useNavigate()
 
    const signOut = () => session.signOut()
-      .then(() => setTimeout(() => navigate("/sign-in"), 250))
+      .then(() => setTimeout(() => navigate("/sign-in"), 50))
       .catch((error) => log.error(error));
 
    return {

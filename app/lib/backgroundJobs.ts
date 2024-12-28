@@ -8,8 +8,9 @@ interface StartIntervalProps {
    interval: number;
    job: () => Promise<void>;
    timeout: number;
+   runOnStart?: boolean;
 }
-export const jobInterval = async ({ interval, job, timeout }: StartIntervalProps) => {
+export const jobInterval = async ({ interval, job, timeout, runOnStart }: StartIntervalProps) => {
    const jobWrapper = async () => {
       try {
          const timeoutPromise = new Promise((_, reject) =>
@@ -20,8 +21,11 @@ export const jobInterval = async ({ interval, job, timeout }: StartIntervalProps
          log.error("Error running background jobs:", error);
       }
    };
-   await sleep(250);
-   await jobWrapper();
+
+   if (runOnStart) {
+      sleep.mili(500).then(() => jobWrapper());
+   }
+
    setInterval(async () => {
       await jobWrapper();
    }, interval);
@@ -64,25 +68,12 @@ export const refreshTokenJob = async () => {
 };
 
 export const accessTokenJob = async () => {
-   log.info("Starting accessTokenJob");
    const accessToken = getSecureCookie("access");
-
-   if (!accessToken) {
-      log.warn("Access token missing.");
-      return;
-   }
+   if (!accessToken) return;
 
    try {
-      log.info("Checking if access token is active");
-      await api.isActive(
-         { type: "access" },
-         {
-            headers: {
-               "x-cur-access": accessToken,
-            },
-         },
-      );
-      log.info("Access token is active.");
+      const headers = HeadersBuilder.New().setAccessToken(accessToken).build();
+      await api.isActive({ type: "access" }, headers);
    } catch (error) {
       log.warn("Error occurred during accessTokenJob:", error);
       const errRes = await getErrorResponse(error);
