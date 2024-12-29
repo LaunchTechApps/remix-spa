@@ -9,7 +9,7 @@ interface AsyncImageProps {
    width?: number;
    className?: ClassValue;
 }
-
+// TODO: need to migrate this to use a UseQueryResult<string, Error>
 const AsyncImg = (props: AsyncImageProps) => {
    const { src, alt, className, height, width } = props;
    const [isLoading, setIsLoading] = useState<boolean>(true);

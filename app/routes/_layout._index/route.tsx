@@ -46,22 +46,14 @@ export default function Index() {
 // } from "@/components/ui/carousel";
 // import { useSession } from "@/hooks/use-session";
 // import { getSecureCookie } from "@/sessions";
-// import { useLoaderData } from "@remix-run/react";
 // import useEmblaCarousel from "embla-carousel-react";
 // import { Calendar, ChevronLeft, ChevronRight, DollarSign, MapPin } from "lucide-react";
 // import { useCallback, useEffect, useState } from "react";
-// import { fakeData } from "./fake-data";
-
-// export const clientLoader = async () => {
-//    return {
-//       events: fakeData.events,
-//       recentlyPurchased: fakeData.recentlyPurchased,
-//       trendingArtworks: fakeData.trendingArtworks,
-//    };
-// };
+// import { ViewModel } from "./viewmodel";
 
 // export default function Index() {
-//    const { events, recentlyPurchased, trendingArtworks } = useLoaderData<typeof clientLoader>();
+//    // const { events, recentlyPurchased, trendingArtworks } = useLoaderData<typeof clientLoader>();
+//    const { eventsQuery, recentPurchaseQuery, trendingQuery } = ViewModel();
 
 //    const session = useSession();
 //    if (!session.isSignedIn) {
@@ -107,7 +99,8 @@ export default function Index() {
 //             <section className="mb-8 sm:mb-16 relative">
 //                <div className="overflow-hidden" ref={emblaRef}>
 //                   <div className="flex">
-//                      {events.map((event, index) => (
+//                      {eventsQuery.isLoading && <div>Loading events...</div>}
+//                      {eventsQuery.data?.map((event, index) => (
 //                         <div
 //                            key={event.id}
 //                            className="flex-[0_0_100%] sm:flex-[0_0_80%] min-w-0 relative px-2 sm:px-4"
@@ -213,7 +206,8 @@ export default function Index() {
 
 //                   <Carousel className="2xl:w-[98%] w-[94%] m-auto">
 //                      <CarouselContent className="-ml-2 md:-ml-4">
-//                         {trendingArtworks.map((artwork) => (
+//                         {trendingQuery.isLoading && <div>Loading trending data...</div>}
+//                         {trendingQuery.data?.map((artwork) => (
 //                            <CarouselItem
 //                               key={artwork.id}
 //                               className="pl-2 md:pl-4 basis-3/4 sm:basis-1/2 lg:basis-1/3 xl:basis-1/5"
@@ -270,7 +264,8 @@ export default function Index() {
 //                   </div>
 
 //                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
-//                      {recentlyPurchased.map((artwork) => (
+//                      {recentPurchaseQuery.isLoading && <div>Loading recently purchases data...</div>}
+//                      {recentPurchaseQuery.data?.map((artwork) => (
 //                         <Card
 //                            key={artwork.id}
 //                            className="group relative rounded-2xl sm:rounded-3xl overflow-hidden"

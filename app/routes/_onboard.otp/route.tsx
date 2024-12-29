@@ -1,57 +1,15 @@
-import { api } from "@/api/api";
-import { errorResponse } from "@/api/util";
 import AsyncImg from "@/components/async-img";
 import { FormError } from "@/components/form-error";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useSession } from "@/hooks/use-session";
-import log from "@/lib/logger";
 import { cn } from "@/lib/util";
-import { getSecureCookie, setSecureCookie } from "@/sessions";
-import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import {
-   type ClientActionFunctionArgs,
-   Form,
-   Link,
-   useActionData,
-   useNavigate,
-} from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import { ChevronLeft } from "lucide-react";
-import { useEffect, useState } from "react";
-import { z } from "zod";
-
-const schema = z.object({
-   code: z.string(),
-});
-
-export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-   const formData = await request.formData();
-   try {
-      const submission = parseWithZod(formData, { schema });
-
-      const code = formData.get("code")?.valueOf().toString();
-      const email = getSecureCookie("email");
-      if (!code || !email) {
-         return submission.reply({ formErrors: ["Submission error"] });
-      }
-      const { accessToken, refreshToken } = (await api.confirmOtp({ email, code })).data;
-      if (!accessToken || !refreshToken) {
-         return submission.reply({ formErrors: ["Submission error"] });
-      }
-      log.info("new accessToken set:", accessToken);
-      log.info("new refreshToken set:", refreshToken);
-      setSecureCookie("access", accessToken);
-      setSecureCookie("refresh", refreshToken, { expires: 30 });
-      return submission.reply();
-   } catch (error) {
-      return errorResponse({ formData, schema, error });
-   }
-};
+import { ViewModel } from "./viewmodel";
 
 export default function VerifyOtpPage() {
-   const vm = VerifyOtpViewModel();
+   const vm = ViewModel();
 
    return (
       <div className="min-h-[calc(100vh-136px)] flex items-center justify-center p-4">
@@ -120,51 +78,3 @@ export default function VerifyOtpPage() {
       </div>
    );
 }
-
-const VerifyOtpViewModel = () => {
-   const action = useActionData<typeof clientAction>();
-   const [otp, setOtp] = useState<string>("");
-   const [isSubmitting, setSubmitting] = useState(false);
-
-   const navigate = useNavigate();
-   const session = useSession();
-
-   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newOtp = e.target.value.replace(/[^0-9]/g, "");
-      setOtp(newOtp);
-   };
-
-   useEffect(() => {
-      if (session.isSignedIn) setTimeout(() => navigate("/"), 150);
-   }, [session.isSignedIn]);
-
-   if (isSubmitting) {
-      const accessToken = getSecureCookie("access");
-      const refreshToken = getSecureCookie("refresh");
-      if (accessToken && refreshToken) {
-         session.signIn(accessToken);
-      }
-   }
-
-   const [form, fields] = useForm({
-      id: "otp-signin",
-      onValidate({ formData }) {
-         return parseWithZod(formData, { schema });
-      },
-      lastResult: action,
-      shouldRevalidate: "onBlur",
-      onSubmit() {
-         setSubmitting(true);
-         setTimeout(() => setSubmitting(false), 2000);
-      }
-   });
-
-   return {
-      action,
-      otp,
-      handleInputChange,
-      form,
-      fields,
-      isSubmitting,
-   };
-};

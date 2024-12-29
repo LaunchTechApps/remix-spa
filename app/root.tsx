@@ -1,6 +1,8 @@
+import { Toaster } from "@/components/ui/toaster";
 import type { LinksFunction } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
-import { Toaster } from "@/components/ui/toaster"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import "./tailwind.css";
 import { UserSessionProvider } from "./hooks/use-session";
@@ -18,6 +20,12 @@ export const links: LinksFunction = () => [
    },
 ];
 
+const queryClient = new QueryClient({
+   defaultOptions: {
+      queries: { retry: 3 },
+   },
+});
+
 export function Layout({ children }: { children: React.ReactNode }) {
    return (
       <html lang="en">
@@ -29,7 +37,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
          </head>
          <body>
             <UserSessionProvider>
-               {children}
+               <QueryClientProvider client={queryClient}>
+                  {children}
+                  {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+               </QueryClientProvider>
                <Toaster />
             </UserSessionProvider>
             <ScrollRestoration />

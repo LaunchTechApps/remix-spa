@@ -21,12 +21,12 @@ startTransition(() => {
       interval: milliTo.seconds(15),
       timeout: 5000,
       runOnStart: true,
-      job: () => accessTokenJob(),
+      job: accessTokenJob,
    });
    jobInterval({
       interval: milliTo.minutes(5),
       timeout: 5000,
       runOnStart: true,
-      job: () => refreshTokenJob(),
+      job: refreshTokenJob,
    });
 });
