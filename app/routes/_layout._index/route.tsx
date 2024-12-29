@@ -2,28 +2,33 @@ import { useSession } from "@/hooks/use-session";
 import { useMemo } from "react";
 
 export default function Index() {
-   const session = useSession()
-   const claims = useMemo(() => session.getClaims(), [session.accessToken])
+   const session = useSession();
+   const claims = useMemo(() => session.getClaims(), [session.accessToken]);
 
    return (
       <div className="flex justify-center min-h-screen bg-gray-100">
          <div>
             <div className="h-56" />
-            {session.isSignedIn ?
-               <h1 className="text-4xl text-center font-bold text-gray-700 mb-4">You're signed in</h1> :
+            {session.isSignedIn ? (
+               <h1 className="text-4xl text-center font-bold text-gray-700 mb-4">
+                  You're signed in
+               </h1>
+            ) : (
                <h1 className="text-4xl text-center font-bold text-gray-700 mb-4">Not Signed In</h1>
-            }
-            {session.isSignedIn ?
-               (<div className="relative w-full">
+            )}
+            {session.isSignedIn ? (
+               <div className="relative w-full">
                   <div className="border rounded-lg">
-                     <pre className="p-4 sm:text-sm text-[10px]">{JSON.stringify(claims, null, 2)}</pre>
+                     <pre className="p-4 sm:text-sm text-[10px]">
+                        {JSON.stringify(claims, null, 2)}
+                     </pre>
                   </div>
-               </div>) :
-               (<p className="text-gray-500 text-lg text-center">
+               </div>
+            ) : (
+               <p className="text-gray-500 text-lg text-center">
                   Nothing to display here at the moment.
-               </p>)
-            }
-
+               </p>
+            )}
          </div>
       </div>
    );

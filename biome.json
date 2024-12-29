@@ -25,7 +25,7 @@
          "suspicious": {
             "noConsoleLog": {
                "level": "warn",
-               "fix": "none"
+               "fix": "safe"
             },
             "noEmptyInterface": {
                "level": "warn",

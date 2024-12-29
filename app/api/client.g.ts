@@ -22,6 +22,11 @@ export interface AccountctrlOtpRequest {
   email: string;
 }
 
+export interface AccountctrlWaitlistRegisterRequest {
+  /** @maxLength 200 */
+  email: string;
+}
+
 export interface CtrlutilErrorBody {
   errors?: string[];
   friendlyMsg?: string;
@@ -265,7 +270,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Validates the OTP provided by the user and generates access and refresh tokens upon success.
      *
-     * @tags accounts
+     * @tags account
      * @name ConfirmOtp
      * @summary Confirm OTP
      * @request POST:/api/account/confirm-otp
@@ -283,7 +288,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Sends an OTP to the user's email or mobile based on the provided identifier.
      *
-     * @tags accounts
+     * @tags account
      * @name RequestOtp
      * @summary Request OTP
      * @request POST:/api/account/request-otp
@@ -301,7 +306,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description Signs out the user by invalidating their session or JWT token
      *
-     * @tags accounts
+     * @tags account
      * @name SignOut
      * @summary Signs Out
      * @request POST:/api/account/sign-out
@@ -310,6 +315,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<CtrlutilSimpleResponse, CtrlutilErrorResponse>({
         path: `/api/account/sign-out`,
         method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Adds an email address to the waitlist for early access to the app.
+     *
+     * @tags account
+     * @name RegisterWaitlist
+     * @summary Register an email for the waitlist
+     * @request POST:/api/account/waitlist
+     */
+    registerWaitlist: (request: AccountctrlWaitlistRegisterRequest, params: RequestParams = {}) =>
+      this.request<CtrlutilSimpleResponse, CtrlutilErrorResponse>({
+        path: `/api/account/waitlist`,
+        method: "POST",
+        body: request,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

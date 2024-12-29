@@ -124,11 +124,10 @@ export default function VerifyOtpPage() {
 const VerifyOtpViewModel = () => {
    const action = useActionData<typeof clientAction>();
    const [otp, setOtp] = useState<string>("");
+   const [isSubmitting, setSubmitting] = useState(false);
 
    const navigate = useNavigate();
    const session = useSession();
-
-   const isSubmitting = action?.status === "success"
 
    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newOtp = e.target.value.replace(/[^0-9]/g, "");
@@ -143,7 +142,7 @@ const VerifyOtpViewModel = () => {
       const accessToken = getSecureCookie("access");
       const refreshToken = getSecureCookie("refresh");
       if (accessToken && refreshToken) {
-         session.signIn(accessToken)
+         session.signIn(accessToken);
       }
    }
 
@@ -154,6 +153,10 @@ const VerifyOtpViewModel = () => {
       },
       lastResult: action,
       shouldRevalidate: "onBlur",
+      onSubmit() {
+         setSubmitting(true);
+         setTimeout(() => setSubmitting(false), 2000);
+      }
    });
 
    return {

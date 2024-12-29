@@ -1,5 +1,5 @@
 import { api } from "@/api/api";
-import { getErrorResponse, HeadersBuilder } from "@/api/util";
+import { HeadersBuilder, getErrorResponse } from "@/api/util";
 import log from "@/lib/logger";
 import { deleteAllCookies, getSecureCookie, getUserClaims } from "@/sessions";
 import { type ReactNode, createContext, useContext, useEffect, useMemo, useState } from "react";
@@ -34,20 +34,20 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
    };
 
    const signOut = async (): Promise<void> => {
-      const accessToken = getSecureCookie("access") || ""
-      const refreshToken = getSecureCookie("refresh") || ""
+      const accessToken = getSecureCookie("access") || "";
+      const refreshToken = getSecureCookie("refresh") || "";
 
       const headers = HeadersBuilder.New()
          .setAccessToken(accessToken)
          .setRefreshToken(refreshToken)
-         .build()
+         .build();
 
       try {
-         await api.signOut(headers)
+         await api.signOut(headers);
       } catch (error) {
-         const errRes = await getErrorResponse(error)
+         const errRes = await getErrorResponse(error);
          if (errRes) {
-            log.error(errRes)
+            log.error(errRes);
          }
       }
 
@@ -56,11 +56,11 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
       setSignedIn(false);
    };
 
-   const getClaims = () => getUserClaims()
+   const getClaims = () => getUserClaims();
 
-   const session = { accessToken, isSignedIn, signIn, signOut, getClaims }
+   const session = { accessToken, isSignedIn, signIn, signOut, getClaims };
 
-   const value = useMemo(() => (session), [accessToken, isSignedIn]);
+   const value = useMemo(() => session, [accessToken, isSignedIn]);
 
    return <UserSessionContext.Provider value={value}>{children}</UserSessionContext.Provider>;
 };
