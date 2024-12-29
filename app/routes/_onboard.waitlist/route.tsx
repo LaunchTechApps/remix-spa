@@ -1,6 +1,7 @@
 import { api } from "@/api/api";
 import { errorResponse, getErrorResponse } from "@/api/util";
 import AsyncImg from "@/components/async-img";
+import { useToast } from "@/hooks/use-toast"
 import { FormError } from "@/components/form-error";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -140,6 +141,8 @@ const WaitlistViewModel = () => {
    let submissionStatus = action?.status || "";
    const navigate = useNavigate();
    const session = useSession();
+   const { toast } = useToast()
+
 
    useEffect(() => {
       if (session.isSignedIn) navigate("/");
@@ -161,10 +164,11 @@ const WaitlistViewModel = () => {
    useEffect(() => {
       if (submissionStatus === "success") {
          log.info("WORKED!");
-         alert(`Success! added '${fields.email.value}' to the waitlist`)
+         toast({ description: `Success! added '${fields.email.value}' to the waitlist` })
       }
       if (action?.error?.friendlyError) {
-         alert(action?.error?.friendlyError);
+         // TODO: need to show this message everytime we get it from the action
+         toast({ variant: "destructive", description: action.error.friendlyError });
       }
    }, [submissionStatus]);
 

@@ -1,5 +1,6 @@
 import type { LinksFunction } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import { Toaster } from "@/components/ui/toaster"
 
 import "./tailwind.css";
 import { UserSessionProvider } from "./hooks/use-session";
@@ -27,7 +28,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <Links />
          </head>
          <body>
-            <UserSessionProvider>{children}</UserSessionProvider>
+            <UserSessionProvider>
+               {children}
+               <Toaster />
+            </UserSessionProvider>
             <ScrollRestoration />
             <Scripts />
          </body>
