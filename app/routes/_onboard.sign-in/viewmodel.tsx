@@ -1,4 +1,5 @@
 import { api } from "@/api/api";
+import { sleep } from "@/lib/util";
 import { setSecureCookie } from "@/sessions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
@@ -10,16 +11,11 @@ const schema = z.object({
    email: z.string().email(),
 });
 
-const getImg = async () => {
-   await new Promise((resolve) => setTimeout(resolve, 0));
-   const imageUrl = "https://images.unsplash.com/photo-1546930722-a1292ed9dee8";
-   return imageUrl;
-};
-
 function useImageQuery() {
    return useQuery({
-      queryKey: ["getImage"],
-      queryFn: getImg,
+      queryKey: ["signInImg"],
+      queryFn: () => sleep.mili(1500)
+         .then(() => "https://images.unsplash.com/photo-1546930722-a1292ed9dee8"),
    });
 }
 

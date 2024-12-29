@@ -69,7 +69,7 @@ export default function VerifyOtpPage() {
             </div>
             <div className="hidden md:block relative h-full min-h-[600px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-500 to-purple-700">
                <AsyncImg
-                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=1200&fit=crop"
+                  src={vm.onBoardQuery}
                   alt="OTP Verification"
                   className="object-cover opacity-80 h-full w-full"
                />

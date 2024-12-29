@@ -3,13 +3,14 @@ import { getSecureCookie, setSecureCookie } from "@/sessions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useNavigate } from "@remix-run/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 import { api } from "@/api/api";
 import { getErrorResponse } from "@/api/util";
 import log from "@/lib/logger";
 import { z } from "zod";
+import { sleep } from "@/lib/util";
 
 const schema = z.object({
    code: z.string(),
@@ -25,6 +26,12 @@ export const ViewModel = () => {
 
    const navigate = useNavigate();
    const session = useSession();
+
+   const onBoardQuery = useQuery({
+      queryKey: ["otpImg"],
+      queryFn: () => sleep.mili(1500)
+         .then(() => "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=1200&fit=crop"),
+   })
 
    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newOtp = e.target.value.replace(/[^0-9]/g, "");
@@ -78,5 +85,6 @@ export const ViewModel = () => {
       form,
       fields,
       isSubmitting: submitOtpMutate.isPending,
+      onBoardQuery,
    };
 };

@@ -58,7 +58,7 @@ export default function SignInPage() {
             </div>
             <div className="hidden md:block relative h-full min-h-[600px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-500 to-purple-700">
                <AsyncImg
-                  src={imgQuery.data || ""}
+                  src={imgQuery}
                   alt="Street art"
                   className="object-cover opacity-80 w-full h-full"
                />
