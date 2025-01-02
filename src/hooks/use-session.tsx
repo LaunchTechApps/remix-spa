@@ -68,7 +68,7 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
 export const useSession = () => {
    const context = useContext(UserSessionContext);
    if (!context) {
-      throw new Error("useColorTheme must be used within a ColorThemeProvider");
+      throw new Error("useSession must be used within a UserSessionProvider");
    }
    return context;
 };

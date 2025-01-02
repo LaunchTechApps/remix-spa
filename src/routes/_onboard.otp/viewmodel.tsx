@@ -2,7 +2,6 @@ import { useSession } from "@/hooks/use-session";
 import { getSecureCookie, setSecureCookie } from "@/sessions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -11,6 +10,7 @@ import { getErrorResponse } from "@/api/util";
 import log from "@/lib/logger";
 import { z } from "zod";
 import { sleep } from "@/lib/util";
+import { useNavigate } from "react-router";
 
 const schema = z.object({
    code: z.string(),

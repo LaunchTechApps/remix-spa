@@ -3,8 +3,8 @@ import { sleep } from "@/lib/util";
 import { setSecureCookie } from "@/sessions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 import { z } from "zod";
 
 const schema = z.object({

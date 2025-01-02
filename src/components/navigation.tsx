@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useSession } from "@/hooks/use-session";
 import log from "@/lib/logger";
-import { Link, useNavigate } from "@remix-run/react";
 import {
    BookCheck,
    ChevronDown,
@@ -16,6 +15,7 @@ import {
    User,
 } from "lucide-react";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 
 type Route = "main" | "onboard";
 

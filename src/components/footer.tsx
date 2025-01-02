@@ -1,4 +1,3 @@
-import { Link } from "@remix-run/react";
 import {
    Facebook,
    Instagram,
@@ -7,6 +6,7 @@ import {
    PhoneIcon as WhatsApp,
    Youtube,
 } from "lucide-react";
+import { Link } from "react-router";
 
 export function Footer() {
    return (

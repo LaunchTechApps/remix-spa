@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/util";
-import { Form, Link } from "@remix-run/react";
 import { ChevronLeft } from "lucide-react";
 import { ViewModel } from "./viewmodel";
+import { Form, Link } from "react-router";
 
 export default function VerifyOtpPage() {
    const vm = ViewModel();
