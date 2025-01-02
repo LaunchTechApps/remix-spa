@@ -6,7 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "../tailwind.css";
 import { UserSessionProvider } from '@/hooks/use-session';
 import { useEffect, useState } from 'react';
-import MainLayout from '@/pages/layouts/MainLayout';
+import * as Layout from '@/pages/layouts';
+import * as Page from '@/pages';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,8 +21,32 @@ const routes = [
     element: <ClientEntry />,
     children: [
       {
-        index: true,
-        element: <div>this is the child</div>
+        path: "/",
+        element: <Layout.Main />,
+        children: [
+          {
+            index: true,
+            element: <Page.Home />
+          },
+        ]
+      },
+      {
+        path: "/onboard",
+        element: <Layout.Onboard />,
+        children: [
+          {
+            path: "/onboard/signin",
+            element: <Page.SignIn />
+          },
+          {
+            path: "/onboard/waitlist",
+            element: <Page.Waitlist />,
+          },
+          {
+            path: "/onboard/otp",
+            element: <Page.VerifyOtp />
+          }
+        ]
       }
     ]
   },
@@ -47,7 +72,6 @@ function ClientEntry() {
   return (
     <UserSessionProvider>
       <QueryClientProvider client={queryClient}>
-        <MainLayout />
         <Outlet />
       </QueryClientProvider>
       <Toaster />

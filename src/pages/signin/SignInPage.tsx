@@ -6,7 +6,7 @@ import { cn } from "@/lib/util";
 import { ViewModel } from "./viewmodel";
 import { Form, Link } from "react-router";
 
-export default function SignInPage() {
+export function SignIn() {
    const { form, fields, loginMutate, imgQuery } = ViewModel();
 
    return (
@@ -49,7 +49,7 @@ export default function SignInPage() {
                <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
                   <Link
-                     to="/waitlist"
+                     to="/onboard/waitlist"
                      className="text-purple-600 hover:text-purple-700 font-semibold"
                   >
                      Join the waitlist

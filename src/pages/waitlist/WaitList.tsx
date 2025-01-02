@@ -3,11 +3,11 @@ import { FormError } from "@/components/form-error";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { ViewModel } from "./viewmodel";
 import { cn } from "@/lib/util";
 import { Form, Link } from "react-router";
+import { ViewModel } from "./viewmodel";
 
-export default function WaitlistPage() {
+export function Waitlist() {
    const { form, fields, isSubmitting, waitlistImgQuery } = ViewModel();
    return (
       <div className="min-h-[calc(100vh-136px)] flex items-center justify-center p-4">
@@ -58,7 +58,7 @@ export default function WaitlistPage() {
                <div className="text-center text-sm">
                   Already have an account?{" "}
                   <Link
-                     to="/sign-in"
+                     to="/onboard/signin"
                      className="text-purple-600 hover:text-purple-700 font-semibold"
                   >
                      Sign In

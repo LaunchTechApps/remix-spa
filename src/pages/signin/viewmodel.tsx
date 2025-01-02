@@ -27,7 +27,7 @@ export const ViewModel = () => {
       mutationFn: (email: string) => api.requestOtp({ email }),
       onSuccess: (_, email: string, __) => {
          setSecureCookie("email", email);
-         navigate("/otp");
+         navigate("/onboard/otp");
       },
    });
 

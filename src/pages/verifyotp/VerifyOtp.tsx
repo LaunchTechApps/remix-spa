@@ -5,10 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/util";
 import { ChevronLeft } from "lucide-react";
-import { ViewModel } from "./viewmodel";
 import { Form, Link } from "react-router";
+import { ViewModel } from "./viewmodel";
 
-export default function VerifyOtpPage() {
+export function VerifyOtp() {
    const vm = ViewModel();
 
    return (

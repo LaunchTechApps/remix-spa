@@ -136,7 +136,7 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
                ) : (
                   <div className="mt-6 flex flex-col space-y-4">
                      <Link
-                        to="sign-in"
+                        to="onboard/signin"
                         className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
                      >
                         <LogIn size={20} />
@@ -232,7 +232,7 @@ const NavigationViewModel = () => {
    const signOut = () =>
       session
          .signOut()
-         .then(() => setTimeout(() => navigate("/sign-in"), 50))
+         .then(() => setTimeout(() => navigate("onboard/sign-in"), 50))
          .catch((error) => log.error(error));
 
    return {

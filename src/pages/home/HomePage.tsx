@@ -1,7 +1,7 @@
 import { useSession } from "@/hooks/use-session";
 import { useMemo } from "react";
 
-export default function HomePage() {
+export function Home() {
    const session = useSession();
    const claims = useMemo(() => session.getClaims(), [session.accessToken]);
 
