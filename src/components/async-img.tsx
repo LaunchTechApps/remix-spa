@@ -1,6 +1,6 @@
 import { cn } from "@/lib/util";
-import type { ClassValue } from "clsx";
 import type { UseQueryResult } from "@tanstack/react-query";
+import type { ClassValue } from "clsx";
 
 interface AsyncImageProps {
    src: UseQueryResult<string, Error>;
@@ -30,13 +30,7 @@ const AsyncImg = (props: AsyncImageProps) => {
          )}
 
          {src.data && (
-            <img
-               src={src.data}
-               alt={alt}
-               className={cn(className)}
-               height={height}
-               width={width}
-            />
+            <img src={src.data} alt={alt} className={cn(className)} height={height} width={width} />
          )}
       </>
    );

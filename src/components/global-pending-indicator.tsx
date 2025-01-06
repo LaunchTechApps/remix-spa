@@ -1,5 +1,5 @@
-import { useNavigation } from "react-router";
 import { cn } from "@/lib/util";
+import { useNavigation } from "react-router";
 
 export function GlobalPendingIndicator() {
    const navigation = useNavigation();

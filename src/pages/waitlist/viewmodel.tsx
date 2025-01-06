@@ -23,21 +23,31 @@ export const ViewModel = () => {
 
    const waitlistImgQuery = useQuery({
       queryKey: ["waitlistPageImage"],
-      queryFn: () => sleep.mili(500)
-         .then(() => "https://images.unsplash.com/photo-1542772144-515ddfae17e9")
-   })
+      queryFn: () =>
+         sleep.mili(500).then(() => "https://images.unsplash.com/photo-1542772144-515ddfae17e9"),
+   });
 
    const registerWaitlistMutate = useMutation({
       mutationKey: ["registerWaitlist"],
       mutationFn: (email: string) => api.registerWaitlist({ email }),
-      onSuccess: (_, email) => toast({ description: `Success! ${email} was added to the waitlist` }),
-      onError: (error) => getErrorResponse(error)
-         .then(e => { log.error(e); return e; })
-         .then(e => e?.friendlyMsg && toast({ variant: "destructive", description: e.friendlyMsg }))
-         .catch(e => log.error(e))
-   })
+      onSuccess: (_, email) =>
+         toast({ description: `Success! ${email} was added to the waitlist` }),
+      onError: (error) =>
+         getErrorResponse(error)
+            .then((e) => {
+               log.error(e);
+               return e;
+            })
+            .then(
+               (e) =>
+                  e?.friendlyMsg && toast({ variant: "destructive", description: e.friendlyMsg }),
+            )
+            .catch((e) => log.error(e)),
+   });
 
-   useEffect(() => { if (session.isSignedIn) navigate("/"); }, []);
+   useEffect(() => {
+      if (session.isSignedIn) navigate("/");
+   }, []);
 
    const [form, fields] = useForm({
       id: "waitlist-register",
@@ -48,7 +58,7 @@ export const ViewModel = () => {
          e.preventDefault();
          const email = ctx.formData.get("email")?.toString() || "";
          if (email) {
-            registerWaitlistMutate.mutate(email)
+            registerWaitlistMutate.mutate(email);
          }
       },
       shouldRevalidate: "onBlur",

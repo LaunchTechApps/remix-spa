@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 import { api } from "@/api/api";
 import { getErrorResponse } from "@/api/util";
 import log from "@/lib/logger";
-import { z } from "zod";
 import { sleep } from "@/lib/util";
 import { useNavigate } from "react-router";
+import { z } from "zod";
 
 const schema = z.object({
    code: z.string(),
@@ -29,9 +29,14 @@ export const ViewModel = () => {
 
    const onBoardQuery = useQuery({
       queryKey: ["otpImg"],
-      queryFn: () => sleep.mili(1500)
-         .then(() => "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=1200&fit=crop"),
-   })
+      queryFn: () =>
+         sleep
+            .mili(1500)
+            .then(
+               () =>
+                  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=1200&fit=crop",
+            ),
+   });
 
    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newOtp = e.target.value.replace(/[^0-9]/g, "");

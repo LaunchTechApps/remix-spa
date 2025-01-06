@@ -1,12 +1,8 @@
-import { api } from "@/api/api";
-import { HeadersBuilder } from "@/api/util";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useSession } from "@/hooks/use-session";
-import { refreshTokenJob } from "@/lib/backgroundJobs";
 import log from "@/lib/logger";
-import { getSecureCookie } from "@/sessions";
 import {
    BookCheck,
    ChevronDown,
@@ -234,10 +230,10 @@ const NavigationViewModel = () => {
    const navigate = useNavigate();
 
    const signOut = () =>
-      session.signOut()
+      session
+         .signOut()
          .then(() => setTimeout(() => navigate("onboard/signin"), 50))
          .catch((error) => log.error(error));
-
 
    return {
       isSearchOpen,
@@ -246,4 +242,3 @@ const NavigationViewModel = () => {
       isSignedIn: session.isSignedIn,
    };
 };
-

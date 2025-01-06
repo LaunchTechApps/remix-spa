@@ -3,8 +3,8 @@ import { FormError } from "@/components/form-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/util";
-import { ViewModel } from "./viewmodel";
 import { Form, Link } from "react-router";
+import { ViewModel } from "./viewmodel";
 
 export function SignIn() {
    const { form, fields, loginMutate, imgQuery } = ViewModel();

@@ -14,8 +14,8 @@ const schema = z.object({
 function useImageQuery() {
    return useQuery({
       queryKey: ["signInImg"],
-      queryFn: () => sleep.mili(1500)
-         .then(() => "https://images.unsplash.com/photo-1546930722-a1292ed9dee8"),
+      queryFn: () =>
+         sleep.mili(1500).then(() => "https://images.unsplash.com/photo-1546930722-a1292ed9dee8"),
    });
 }
 

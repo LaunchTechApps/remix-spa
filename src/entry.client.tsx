@@ -1,10 +1,10 @@
+import { Toaster } from "@/components/ui/toaster";
+import { UserSessionProvider } from "@/hooks/use-session";
 import { accessTokenJob, createJobInterval, refreshTokenJob } from "@/lib/backgroundJobs";
 import { milliTo } from "@/lib/util";
-import { useEffect, useState } from "react";
-import { UserSessionProvider } from "@/hooks/use-session";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
-import { Toaster } from "@/components/ui/toaster";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 createJobInterval({
@@ -28,7 +28,6 @@ const queryClient = new QueryClient({
 });
 
 export function ClientEntry() {
-
    const [isHydrating, setIsHydrating] = useState(true);
 
    useEffect(() => {

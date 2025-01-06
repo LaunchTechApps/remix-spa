@@ -17,12 +17,7 @@ export function Waitlist() {
                   <h1 className="text-3xl font-bold tracking-tight">EARLY ACCESS</h1>
                   <p className="text-gray-500">Join the waitlist</p>
                </div>
-               <Form
-                  method="post"
-                  id={form.id}
-                  onSubmit={form.onSubmit}
-                  className="space-y-6"
-               >
+               <Form method="post" id={form.id} onSubmit={form.onSubmit} className="space-y-6">
                   <div className="space-y-4">
                      <div className="space-y-2">
                         <div className="relative">
