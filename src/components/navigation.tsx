@@ -1,8 +1,12 @@
+import { api } from "@/api/api";
+import { HeadersBuilder } from "@/api/util";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useSession } from "@/hooks/use-session";
+import { refreshTokenJob } from "@/lib/backgroundJobs";
 import log from "@/lib/logger";
+import { getSecureCookie } from "@/sessions";
 import {
    BookCheck,
    ChevronDown,
@@ -143,7 +147,7 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
                         <span>Sign in</span>
                      </Link>
                      <Link
-                        to="/waitlist"
+                        to="/onboard/waitlist"
                         className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
                      >
                         <BookCheck size={20} />
@@ -206,7 +210,7 @@ const Anonymous = () => {
    return (
       <div className="hidden md:flex items-center justify-end">
          <Link
-            to="/sign-in"
+            to="/onboard/signin"
             className="flex items-center w-20 space-x-1 text-sm font-medium text-gray-600 hover:text-gray-900"
          >
             <LogIn size={20} />
@@ -214,7 +218,7 @@ const Anonymous = () => {
          </Link>
          <div className="w-3" />
          <Link
-            to="/waitlist"
+            to="/onboard/waitlist"
             className="flex items-center w-28 space-x-1 text-sm font-medium text-gray-600 hover:text-gray-900"
          >
             <BookCheck size={20} />
@@ -230,10 +234,10 @@ const NavigationViewModel = () => {
    const navigate = useNavigate();
 
    const signOut = () =>
-      session
-         .signOut()
-         .then(() => setTimeout(() => navigate("onboard/sign-in"), 50))
+      session.signOut()
+         .then(() => setTimeout(() => navigate("onboard/signin"), 50))
          .catch((error) => log.error(error));
+
 
    return {
       isSearchOpen,
@@ -242,3 +246,4 @@ const NavigationViewModel = () => {
       isSignedIn: session.isSignedIn,
    };
 };
+

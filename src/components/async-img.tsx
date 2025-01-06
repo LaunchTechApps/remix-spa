@@ -15,7 +15,7 @@ const AsyncImg = (props: AsyncImageProps) => {
 
    return (
       <>
-         {src.isPending && (
+         {src.isLoading && (
             <div className="absolute inset-0 overflow-hidden">
                <div className="absolute inset-0 bg-gray-200">
                   <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200" />

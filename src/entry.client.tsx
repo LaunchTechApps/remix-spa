@@ -1,30 +1,55 @@
-/**
- * By default, Remix will handle hydrating your app on the client for you.
- * You are free to delete this file if you'd like to, but if you ever want it revealed again, you can run `npx remix reveal` ✨
- * For more information, see https://remix.run/file-conventions/entry.client
- */
-
-import { accessTokenJob, jobInterval, refreshTokenJob } from "@/lib/backgroundJobs";
+import { accessTokenJob, createJobInterval, refreshTokenJob } from "@/lib/backgroundJobs";
 import { milliTo } from "@/lib/util";
-import { StrictMode, startTransition } from "react";
-import { hydrateRoot } from "react-dom/client";
+import { useEffect, useState } from "react";
+import { UserSessionProvider } from "@/hooks/use-session";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Outlet } from "react-router";
+import { Toaster } from "@/components/ui/toaster";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-startTransition(() => {
-   hydrateRoot(
-      document,
-      <StrictMode>
-      </StrictMode>,
-   );
-   jobInterval({
-      interval: milliTo.seconds(15),
-      timeout: 5000,
-      runOnStart: true,
-      job: accessTokenJob,
-   });
-   jobInterval({
-      interval: milliTo.minutes(5),
-      timeout: 5000,
-      runOnStart: true,
-      job: refreshTokenJob,
-   });
+createJobInterval({
+   interval: milliTo.seconds(15),
+   timeout: 5000,
+   runOnStart: true,
+   job: accessTokenJob,
 });
+
+createJobInterval({
+   interval: milliTo.minutes(5),
+   timeout: 5000,
+   runOnStart: true,
+   job: refreshTokenJob,
+});
+
+const queryClient = new QueryClient({
+   defaultOptions: {
+      queries: { retry: 3 },
+   },
+});
+
+export function ClientEntry() {
+
+   const [isHydrating, setIsHydrating] = useState(true);
+
+   useEffect(() => {
+      const timer = setTimeout(() => setIsHydrating(false), 1000);
+      return () => clearTimeout(timer);
+   }, []);
+
+   if (isHydrating) {
+      return (
+         <div className="flex h-screen items-center justify-center">
+            <div className="h-12 w-12 animate-spin rounded-full border-[5px] border-blue-600 border-t-transparent" />
+         </div>
+      );
+   }
+
+   return (
+      <UserSessionProvider>
+         <QueryClientProvider client={queryClient}>
+            <Outlet />
+         </QueryClientProvider>
+         <Toaster />
+      </UserSessionProvider>
+   );
+}

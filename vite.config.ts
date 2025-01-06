@@ -5,7 +5,8 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
    plugins: [react(), tsconfigPaths()],
    build: {
-      outDir: "dist",
+      outDir: "build",
       assetsDir: "assets",
    },
+   base: "remix-spa",
 });

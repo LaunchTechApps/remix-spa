@@ -5,6 +5,7 @@ export function Onboard() {
    return (
       <div>
          <Navigation forRoute="onboard" />
+         <div className="h-14" />
          <Outlet />
       </div>
    );

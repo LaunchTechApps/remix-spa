@@ -10,7 +10,12 @@ interface StartIntervalProps {
    timeout: number;
    runOnStart?: boolean;
 }
-export const jobInterval = async ({ interval, job, timeout, runOnStart }: StartIntervalProps) => {
+export const createJobInterval = async ({
+   interval,
+   job,
+   timeout,
+   runOnStart,
+}: StartIntervalProps) => {
    const jobWrapper = async () => {
       try {
          const timeoutPromise = new Promise((_, reject) =>
@@ -32,6 +37,7 @@ export const jobInterval = async ({ interval, job, timeout, runOnStart }: StartI
 };
 
 export const refreshTokenJob = async () => {
+   log.info("refreshTokenJob started");
    const accessToken = getSecureCookie("access");
    const refreshToken = getSecureCookie("refresh");
 
@@ -68,6 +74,7 @@ export const refreshTokenJob = async () => {
 };
 
 export const accessTokenJob = async () => {
+   log.info("accessTokenJob started");
    const accessToken = getSecureCookie("access");
    if (!accessToken) return;
 

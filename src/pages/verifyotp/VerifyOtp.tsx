@@ -56,7 +56,7 @@ export function VerifyOtp() {
                         </Button>
                         <div className="text-center">
                            <Link
-                              to="/sign-in"
+                              to="/onboard/signin"
                               className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
                            >
                               <ChevronLeft className="w-4 h-4 mr-1" />
@@ -67,7 +67,7 @@ export function VerifyOtp() {
                   </CardContent>
                </Card>
             </div>
-            <div className="hidden md:block relative h-full min-h-[600px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-500 to-purple-700">
+            <div className="hidden md:block relative h-[88vh] max-h-[50rem] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-500 to-purple-700">
                <AsyncImg
                   src={vm.onBoardQuery}
                   alt="OTP Verification"
