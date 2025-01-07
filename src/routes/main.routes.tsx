@@ -17,6 +17,10 @@ const routes = [
                   index: true,
                   element: <Page.Home />,
                },
+               {
+                  path: "portfolio",
+                  element: <Page.Home />,
+               },
             ],
          },
          {
