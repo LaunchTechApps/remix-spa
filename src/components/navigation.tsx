@@ -87,6 +87,11 @@ interface HamburgerMenuProps {
 
 const HamburgerMenu = (props: HamburgerMenuProps) => {
    const { signOut, isSignedIn } = NavigationViewModel();
+   const [isSheetOpen, setSheetOpen] = useState(false);
+
+   const closeSheet = () => {
+      setSheetOpen(false);
+   };
 
    return (
       <>
@@ -98,7 +103,7 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
          >
             <Search className="h-5 w-5" />
          </Button>
-         <Sheet>
+         <Sheet open={isSheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger asChild>
                <Button variant="ghost" size="icon" aria-label="Open menu">
                   <Menu className="h-5 w-5" />
@@ -111,8 +116,9 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
                {isSignedIn ? (
                   <div className="mt-6 flex flex-col space-y-4">
                      <Link
-                        to="#"
+                        to="/portfolio"
                         className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                        onClick={closeSheet}
                      >
                         <ImageIcon size={20} />
                         <span>Portfolio</span>
@@ -120,6 +126,7 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
                      <Link
                         to="#"
                         className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                        onClick={closeSheet}
                      >
                         <Settings size={20} />
                         <span>Settings</span>
@@ -138,6 +145,7 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
                      <Link
                         to="onboard/signin"
                         className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                        onClick={closeSheet}
                      >
                         <LogIn size={20} />
                         <span>Sign in</span>
@@ -145,6 +153,7 @@ const HamburgerMenu = (props: HamburgerMenuProps) => {
                      <Link
                         to="/onboard/waitlist"
                         className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                        onClick={closeSheet}
                      >
                         <BookCheck size={20} />
                         <span>Waitlist</span>
@@ -163,7 +172,7 @@ const SignedIn = () => {
    return (
       <div className="hidden md:flex items-center w-full">
          <Link
-            to="/"
+            to="/portfolio"
             className="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-gray-900"
          >
             <ImageIcon size={20} />

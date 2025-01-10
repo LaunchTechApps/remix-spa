@@ -19,7 +19,11 @@ const routes = [
                },
                {
                   path: "portfolio",
-                  element: <Page.Home />,
+                  element: <Page.Portfolio />,
+               },
+               {
+                  path: "/artwork/:id",
+                  element: <Page.Artwork />,
                },
             ],
          },

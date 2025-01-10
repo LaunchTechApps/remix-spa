@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { Pencil, Camera } from "lucide-react";
+import { EditArtistDetailsModal } from "@/components/edit-artist-details-modal";
+import { EditBannerModal } from "@/components/edit-banner-modal";
+import { EditProfilePictureModal } from "@/components/edit-profile-picture-modal";
+import { NewArtworkModal } from "@/components/new-artwork-modal";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { NewArtworkModal } from "@/components/new-artwork-modal";
-import { EditProfilePictureModal } from "@/components/edit-profile-picture-modal";
-import { EditBannerModal } from "@/components/edit-banner-modal";
-import { EditArtistDetailsModal } from "@/components/edit-artist-details-modal";
-import { Badge } from "@/components/ui/badge";
+import { Camera, Pencil } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router";
 
 const artistData = {
@@ -77,7 +77,7 @@ for (let i = 4; i <= 24; i++) {
    });
 }
 
-export default function ArtistPage({ params }: { params: { id: string } }) {
+export function Portfolio() {
    const [isNewArtworkModalOpen, setIsNewArtworkModalOpen] = useState(false);
    const [isProfilePictureModalOpen, setIsProfilePictureModalOpen] = useState(false);
    const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
@@ -88,12 +88,27 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
          <div className="relative">
             {/* Banner Image */}
             <div className="relative h-[300px] w-full overflow-hidden">
-               <img src={artistData.bannerImage} alt="Artist Banner" className="object-cover" />
-               <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
+               <div className="relative h-full w-full">
+                  <img
+                     src={artistData.bannerImage}
+                     alt="Artist Banner"
+                     className="object-cover mx-auto min-h-[20rem] mt-10"
+                     style={{
+                        maskImage:
+                           "linear-gradient(to right, transparent, black 20%, black 80%, transparent)",
+                        WebkitMaskImage:
+                           "linear-gradient(to right, transparent, black 20%, black 80%, transparent)",
+                     }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 pointer-events-none" />
+               </div>
+            </div>
+
+            <div className="absolute w-full max-w-screen-2xl mx-auto h-10 top-20 left-0 right-0 flex justify-end items-center">
                <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white rounded-full"
+                  className="bg-black/50 hover:bg-black/70 text-white rounded-full mr-6"
                   onClick={() => setIsBannerModalOpen(true)}
                >
                   <Camera className="h-6 w-6" />
