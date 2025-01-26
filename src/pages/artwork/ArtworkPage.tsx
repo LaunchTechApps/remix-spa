@@ -25,7 +25,7 @@ import {
 import log from "@/lib/logger";
 import { ExternalLink, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Link, type LoaderFunctionArgs, useLoaderData } from "react-router";
+import { Link } from "react-router";
 
 type ArtworkType = {
    id: number;
@@ -167,18 +167,27 @@ export function Artwork() {
                               variant="ghost"
                               size="icon"
                               className="bg-black/50 hover:bg-black/70 text-white rounded-full"
+                              onClick={(e) => e.currentTarget.blur()}
                            >
                               <MoreHorizontal className="h-5 w-5" />
                            </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                           <DropdownMenuItem onClick={handleEdit}>
+                           <DropdownMenuItem
+                              onClick={() => {
+                                 handleEdit();
+                                 document.body.style.pointerEvents = "";
+                              }}
+                           >
                               <Pencil className="mr-2 h-4 w-4" />
                               Edit
                            </DropdownMenuItem>
                            <DropdownMenuItem
                               className="text-red-600"
-                              onClick={() => setIsDeleteModalOpen(true)}
+                              onClick={() => {
+                                 setIsDeleteModalOpen(true);
+                                 document.body.style.pointerEvents = "";
+                              }}
                            >
                               <Trash2 className="mr-2 h-4 w-4" />
                               Delete
